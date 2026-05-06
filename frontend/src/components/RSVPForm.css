@@ -1,0 +1,122 @@
+.rsvp-section {
+  background: #fff;
+  border: 1px solid #e8e8e8;
+  border-radius: 8px;
+  padding: 1.5rem 1.35rem 1.65rem;
+}
+
+.rsvp-heading {
+  font-size: 1.15rem;
+  font-weight: 600;
+  margin-bottom: 1.15rem;
+}
+
+.rsvp-form {
+  display: flex;
+  flex-direction: column;
+  gap: 1.1rem;
+}
+
+.rsvp-field {
+  display: flex;
+  flex-direction: column;
+  gap: 0.35rem;
+}
+
+.rsvp-label {
+  font-size: 0.875rem;
+  font-weight: 500;
+  color: #333;
+}
+
+.rsvp-required {
+  color: #a32020;
+}
+
+.rsvp-optional {
+  font-weight: 400;
+  color: #666;
+  font-size: 0.8rem;
+}
+
+.rsvp-input,
+.rsvp-textarea {
+  padding: 0.6rem 0.65rem;
+  border: 1px solid #cfcfcf;
+  border-radius: 6px;
+  background: #fafafa;
+  width: 100%;
+}
+
+.rsvp-textarea {
+  resize: vertical;
+  min-height: 5rem;
+}
+
+.rsvp-input:focus,
+.rsvp-textarea:focus {
+  outline: 2px solid #1a5276;
+  outline-offset: 1px;
+  border-color: #1a5276;
+  background: #fff;
+}
+
+.rsvp-input:disabled,
+.rsvp-textarea:disabled {
+  opacity: 0.65;
+  cursor: not-allowed;
+}
+
+.rsvp-radio-row {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 1.25rem;
+}
+
+.rsvp-radio-label {
+  font-size: 0.95rem;
+  cursor: pointer;
+}
+
+.rsvp-radio-label input {
+  accent-color: #1a5276;
+}
+
+.rsvp-hint {
+  margin: 0;
+  font-size: 0.8rem;
+  color: #666;
+}
+
+.rsvp-error {
+  margin: 0;
+  font-size: 0.875rem;
+  color: #a32020;
+}
+
+.rsvp-success {
+  margin: 0;
+  font-size: 0.875rem;
+  color: #1e6b3a;
+}
+
+.rsvp-submit {
+  margin-top: 0.35rem;
+  padding: 0.65rem 1rem;
+  border: none;
+  border-radius: 6px;
+  background: #1a5276;
+  color: #fff;
+  font-weight: 600;
+  cursor: pointer;
+  align-self: flex-start;
+}
+
+.rsvp-submit:hover:not(:disabled) {
+  background: #174361;
+}
+
+.rsvp-submit:disabled {
+  opacity: 0.7;
+  cursor: not-allowed;
+}

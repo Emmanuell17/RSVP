@@ -1,0 +1,39 @@
+.rsvp-received-page {
+  flex: 1;
+  padding: 2rem 1rem 3rem;
+  display: flex;
+  justify-content: center;
+  align-items: flex-start;
+}
+
+.rsvp-received-card {
+  width: min(560px, 100%);
+  background: #ffffff;
+  border: 1px solid #e7e7e7;
+  border-radius: 10px;
+  padding: 1.5rem 1.25rem;
+  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.05);
+}
+
+.rsvp-received-title {
+  margin: 0 0 0.75rem;
+  font-size: 1.5rem;
+}
+
+.rsvp-received-text {
+  margin: 0 0 1rem;
+  color: #333;
+  line-height: 1.45;
+}
+
+.rsvp-received-link {
+  display: inline-block;
+  color: #0b57d0;
+  text-decoration: none;
+  font-weight: 600;
+}
+
+.rsvp-received-link:hover,
+.rsvp-received-link:focus-visible {
+  text-decoration: underline;
+}

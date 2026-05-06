@@ -1,0 +1,20 @@
+.main-page {
+  flex: 1;
+  padding: 2rem 1rem 3rem;
+  display: flex;
+  justify-content: center;
+}
+
+.main-inner {
+  width: min(560px, 100%);
+}
+
+.rsvp-closed-message {
+  margin: 0 0 1rem;
+  padding: 0.75rem 1rem;
+  background: #fff4e6;
+  border: 1px solid #e8cfa3;
+  border-radius: 6px;
+  color: #7a4617;
+  font-size: 0.95rem;
+}
