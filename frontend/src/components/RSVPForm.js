@@ -1,5 +1,6 @@
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
+import { apiUrl } from "../api";
 import "./RSVPForm.css";
 
 export default function RSVPForm({ disabled }) {
@@ -52,7 +53,7 @@ export default function RSVPForm({ disabled }) {
 
     setPending(true);
     try {
-      const res = await fetch("/rsvp", {
+      const res = await fetch(apiUrl("/rsvp"), {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify(payload),

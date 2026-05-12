@@ -1,5 +1,6 @@
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
+import { apiUrl } from "../api";
 import "./LoginForm.css";
 
 export default function LoginForm() {
@@ -19,7 +20,7 @@ export default function LoginForm() {
 
     setPending(true);
     try {
-      const res = await fetch("/login", {
+      const res = await fetch(apiUrl("/login"), {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({ password: password.trim() }),
@@ -36,7 +37,9 @@ export default function LoginForm() {
         (res.ok && ct.includes("text/html"))
       ) {
         setError(
-          "Cannot reach the API. Start the backend (npm run dev in backend/) so it listens on the same port as frontend proxy."
+          process.env.NODE_ENV === "production"
+            ? "Cannot reach the API. In Vercel, set environment variable REACT_APP_API_URL to your deployed backend URL (no trailing slash), then redeploy."
+            : "Cannot reach the API. Start the backend (npm run dev in backend/) so it listens on the same port as the frontend proxy."
         );
         return;
       }
@@ -50,7 +53,9 @@ export default function LoginForm() {
       setError(
         (data && data.error) ||
           (!data
-            ? "Bad response from server. Is the backend running?"
+            ? process.env.NODE_ENV === "production"
+              ? "Bad response from server. Check REACT_APP_API_URL points to your API and redeploy."
+              : "Bad response from server. Is the backend running?"
             : "Invalid password.")
       );
     } catch {

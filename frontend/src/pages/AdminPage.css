@@ -1,0 +1,135 @@
+.admin-page {
+  min-height: 100vh;
+  padding: 24px 16px;
+  display: flex;
+  justify-content: center;
+}
+
+.admin-panel {
+  width: 100%;
+  max-width: 860px;
+  background: #ffffff;
+  border-radius: 14px;
+  padding: 20px;
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.08);
+}
+
+.admin-header {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  margin-bottom: 16px;
+}
+
+.admin-heading {
+  margin: 0;
+  flex: 1;
+  min-width: 0;
+}
+
+.admin-back-button {
+  border: 1px solid #d1d5db !important;
+  background: #ffffff !important;
+  color: #374151 !important;
+  font-weight: 500;
+  white-space: nowrap;
+  transition:
+    background-color 0.15s ease,
+    border-color 0.15s ease,
+    color 0.15s ease;
+}
+
+.admin-back-button:hover {
+  background: #f9fafb !important;
+  border-color: #9ca3af !important;
+  color: #111827 !important;
+}
+
+.admin-mode-switch {
+  display: flex;
+  gap: 8px;
+  margin-bottom: 12px;
+}
+
+.admin-mode-switch button,
+.admin-auth-form button,
+.admin-toolbar-actions button,
+.admin-rsvp-item button {
+  border: 0;
+  border-radius: 8px;
+  padding: 8px 12px;
+  background: #111827;
+  color: #ffffff;
+  cursor: pointer;
+}
+
+.admin-mode-switch button.active {
+  background: #374151;
+}
+
+.admin-auth-form {
+  display: grid;
+  gap: 8px;
+}
+
+.admin-auth-form input {
+  padding: 8px 10px;
+  border: 1px solid #d1d5db;
+  border-radius: 8px;
+}
+
+.admin-data {
+  display: grid;
+  gap: 12px;
+}
+
+.admin-toolbar {
+  display: flex;
+  justify-content: space-between;
+  gap: 8px;
+  align-items: center;
+}
+
+.admin-toolbar-actions {
+  display: flex;
+  gap: 8px;
+}
+
+.admin-rsvp-list {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: grid;
+  gap: 10px;
+}
+
+.admin-rsvp-item {
+  border: 1px solid #e5e7eb;
+  border-radius: 10px;
+  padding: 12px;
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  gap: 12px;
+}
+
+.admin-rsvp-item p {
+  margin: 4px 0;
+}
+
+.admin-rsvp-name {
+  margin: 0;
+  font-weight: 700;
+}
+
+.admin-error {
+  margin-top: 12px;
+  color: #b42318;
+}
+
+.admin-status {
+  margin-top: 12px;
+  color: #027a48;
+}

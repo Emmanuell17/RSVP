@@ -1,8 +1,19 @@
 .rsvp-section {
-  background: #fff;
-  border: 1px solid #e8e8e8;
+  background: rgb(255 255 255 / 0.92);
+  border: 1px solid rgb(232 232 232 / 0.9);
   border-radius: 8px;
   padding: 1.5rem 1.35rem 1.65rem;
+  backdrop-filter: blur(2px);
+  -webkit-backdrop-filter: blur(2px);
+  transition: box-shadow 220ms ease, border-color 220ms ease, background-color 220ms ease;
+}
+
+.rsvp-section:hover {
+  box-shadow:
+    0 2px 8px rgb(0 0 0 / 0.04),
+    0 12px 24px rgb(0 0 0 / 0.08);
+  border-color: rgb(209 213 219 / 0.95);
+  background: rgb(255 255 255 / 0.95);
 }
 
 .rsvp-heading {

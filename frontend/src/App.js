@@ -2,6 +2,7 @@ import { BrowserRouter, Routes, Route, Navigate } from "react-router-dom";
 import LoginPage from "./pages/LoginPage";
 import MainPage from "./pages/MainPage";
 import RsvpReceivedPage from "./pages/RsvpReceivedPage";
+import AdminPage from "./pages/AdminPage";
 import "./App.css";
 
 function isAuthenticated() {
@@ -21,6 +22,7 @@ export default function App() {
       <div className="app-shell">
         <Routes>
           <Route path="/login" element={<LoginPage />} />
+          <Route path="/admin" element={<AdminPage />} />
           <Route
             path="/"
             element={

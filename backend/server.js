@@ -2,8 +2,9 @@ require("dotenv").config();
 const express = require("express");
 const cors = require("cors");
 const bodyParser = require("body-parser");
+const jwt = require("jsonwebtoken");
 const { pool, ensureSchema } = require("./db");
-const { sendRsvpNotification } = require("./email");
+const { sendRsvpNotification, sendRemovalNotification } = require("./email");
 
 const app = express();
 /* Default 5050: macOS often uses 5000 for AirPlay Receiver, causing EADDRINUSE. */
@@ -11,6 +12,43 @@ const PORT = Number(process.env.PORT) || 5050;
 
 app.use(cors());
 app.use(bodyParser.json());
+
+const ADMIN_TOKEN_TTL = process.env.ADMIN_TOKEN_TTL || "7d";
+const ADMIN_JWT_SECRET = String(process.env.ADMIN_JWT_SECRET || "").trim();
+
+function ensureAdminSecret(res) {
+  if (ADMIN_JWT_SECRET) return true;
+  res.status(500).json({ error: "Admin auth is not configured" });
+  return false;
+}
+
+function getConfiguredAdminPassword() {
+  const adminPwRaw = process.env.ADMIN_PASSWORD;
+  return typeof adminPwRaw === "string"
+    ? adminPwRaw.trim()
+    : String(adminPwRaw ?? "").trim();
+}
+
+function parseBearerToken(headerValue) {
+  const [scheme, token] = String(headerValue || "").split(" ");
+  if (scheme !== "Bearer" || !token) return null;
+  return token;
+}
+
+function requireAdmin(req, res, next) {
+  if (!ensureAdminSecret(res)) return;
+  const token = parseBearerToken(req.headers.authorization);
+  if (!token) {
+    return res.status(401).json({ error: "Admin token is required" });
+  }
+
+  try {
+    req.admin = jwt.verify(token, ADMIN_JWT_SECRET);
+    return next();
+  } catch {
+    return res.status(401).json({ error: "Invalid or expired admin token" });
+  }
+}
 
 app.get("/health", (req, res) => {
   res.type("text").send("OK");
@@ -38,6 +76,29 @@ app.post("/login", (req, res) => {
   }
 
   return res.status(401).json({ error: "Invalid password" });
+});
+
+app.post("/admin/login", (req, res) => {
+  if (!ensureAdminSecret(res)) return;
+
+  const configuredPassword = getConfiguredAdminPassword();
+  if (!configuredPassword) {
+    return res.status(500).json({ error: "Admin password is not configured" });
+  }
+
+  const password = String(req.body?.password || "").trim();
+  if (!password) {
+    return res.status(400).json({ error: "Password is required" });
+  }
+
+  if (password !== configuredPassword) {
+    return res.status(401).json({ error: "Invalid admin password" });
+  }
+
+  const token = jwt.sign({ role: "admin" }, ADMIN_JWT_SECRET, {
+    expiresIn: ADMIN_TOKEN_TTL,
+  });
+  return res.json({ success: true, token });
 });
 
 app.post("/rsvp", async (req, res) => {
@@ -108,6 +169,91 @@ app.post("/rsvp", async (req, res) => {
       if (msg) body.detail = code ? `${code}: ${msg}` : msg;
     }
     return res.status(500).json(body);
+  }
+});
+
+app.get("/admin/rsvps", requireAdmin, async (req, res) => {
+  try {
+    const rsvpsResult = await pool.query(
+      `SELECT id, name, attending, guest_count, comment, created_at
+       FROM rsvps
+       ORDER BY created_at DESC`
+    );
+    const totalsResult = await pool.query(
+      `SELECT COALESCE(SUM(COALESCE(guest_count, 0) + 1), 0)::int AS total_attending
+       FROM rsvps
+       WHERE attending = true`
+    );
+    return res.json({
+      rsvps: rsvpsResult.rows,
+      total_attending: totalsResult.rows[0].total_attending,
+    });
+  } catch (err) {
+    console.error(err);
+    return res.status(500).json({ error: "Could not load RSVPs" });
+  }
+});
+
+app.delete("/admin/rsvps/:id", requireAdmin, async (req, res) => {
+  const rsvpId = Number(req.params.id);
+  if (!Number.isInteger(rsvpId) || rsvpId <= 0) {
+    return res.status(400).json({ error: "Invalid RSVP id" });
+  }
+
+  const client = await pool.connect();
+  try {
+    await client.query("BEGIN");
+    const selected = await client.query(
+      `SELECT id, name, attending, guest_count
+       FROM rsvps
+       WHERE id = $1
+       FOR UPDATE`,
+      [rsvpId]
+    );
+    if (selected.rowCount === 0) {
+      await client.query("ROLLBACK");
+      return res.status(404).json({ error: "RSVP not found" });
+    }
+
+    const removed = selected.rows[0];
+    await client.query("DELETE FROM rsvps WHERE id = $1", [rsvpId]);
+
+    const totals = await client.query(
+      `SELECT COALESCE(SUM(COALESCE(guest_count, 0) + 1), 0)::int AS total_attending
+       FROM rsvps
+       WHERE attending = true`
+    );
+    await client.query("COMMIT");
+
+    const removedGuests = removed.attending ? Number(removed.guest_count || 0) : 0;
+    const removedPartySize = removed.attending ? removedGuests + 1 : 0;
+    const currentTotal = totals.rows[0].total_attending;
+
+    sendRemovalNotification({
+      name: removed.name,
+      removedGuestCount: removedGuests,
+      removedPartySize,
+      currentAttendingTotal: currentTotal,
+    }).catch((emailErr) => {
+      console.error("RSVP removed but notification email failed:", emailErr);
+    });
+
+    return res.json({
+      success: true,
+      removed: {
+        id: removed.id,
+        name: removed.name,
+        removed_guest_count: removedGuests,
+        removed_party_size: removedPartySize,
+      },
+      total_attending: currentTotal,
+    });
+  } catch (err) {
+    await client.query("ROLLBACK");
+    console.error(err);
+    return res.status(500).json({ error: "Could not remove RSVP" });
+  } finally {
+    client.release();
   }
 });
 

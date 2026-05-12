@@ -68,4 +68,45 @@ async function sendRsvpNotification(payload) {
   });
 }
 
-module.exports = { sendRsvpNotification, buildSummary };
+async function sendRemovalNotification(payload) {
+  const to = process.env.NOTIFY_EMAIL?.trim();
+  if (!to) return;
+
+  const host = process.env.SMTP_HOST?.trim();
+  const user = process.env.SMTP_USER?.trim();
+  const pass = process.env.SMTP_PASS;
+  const port = Number(process.env.SMTP_PORT) || 587;
+  const secure =
+    String(process.env.SMTP_SECURE || "").toLowerCase() === "true" ||
+    port === 465;
+
+  if (!host || !user || pass == null || String(pass) === "") {
+    console.warn(
+      "NOTIFY_EMAIL is set but SMTP_HOST / SMTP_USER / SMTP_PASS are incomplete; skipping email."
+    );
+    return;
+  }
+
+  const from = process.env.SMTP_FROM?.trim() || user || `noreply@${host}`;
+  const transporter = nodemailer.createTransport({
+    host,
+    port,
+    secure,
+    auth: { user, pass: String(pass) },
+  });
+
+  const subject =
+    process.env.NOTIFY_REMOVAL_SUBJECT?.trim() || "RSVP removed by admin";
+  const text = [
+    "An RSVP was removed by admin",
+    "",
+    `Name: ${payload.name}`,
+    `Removed additional guests: ${payload.removedGuestCount}`,
+    `Removed party size (incl. attendee): ${payload.removedPartySize}`,
+    `Current total attending: ${payload.currentAttendingTotal}`,
+  ].join("\n");
+
+  await transporter.sendMail({ from, to, subject, text });
+}
+
+module.exports = { sendRsvpNotification, sendRemovalNotification, buildSummary };

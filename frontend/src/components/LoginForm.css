@@ -1,55 +1,78 @@
 .login-form {
   display: flex;
   flex-direction: column;
-  gap: 0.5rem;
+  gap: 0.62rem;
 }
 
 .login-label {
-  font-size: 0.875rem;
-  font-weight: 500;
-  color: #333;
+  font-size: 0.96rem;
+  font-weight: 650;
+  color: #1e293b;
+  letter-spacing: 0.01em;
 }
 
 .login-input {
-  padding: 0.65rem 0.75rem;
-  border: 1px solid #cfcfcf;
-  border-radius: 6px;
-  background: #fafafa;
+  padding: 0.82rem 0.9rem;
+  border: 1px solid #cbd5e1;
+  border-radius: 10px;
+  background: rgb(255 255 255 / 0.76);
+  color: #0f172a;
+  transition:
+    box-shadow 180ms ease,
+    border-color 180ms ease,
+    background-color 180ms ease,
+    transform 180ms ease;
 }
 
 .login-input:focus {
-  outline: 2px solid #1a5276;
+  outline: 2px solid rgb(79 70 229 / 0.35);
   outline-offset: 1px;
-  border-color: #1a5276;
+  border-color: #4f46e5;
   background: #fff;
+  box-shadow: 0 0 0 4px rgb(79 70 229 / 0.12);
+  transform: translateY(-1px);
 }
 
 .login-input:disabled {
-  opacity: 0.7;
+  opacity: 0.75;
+  cursor: not-allowed;
 }
 
 .login-error {
-  margin: 0.25rem 0 0;
+  margin: 0.15rem 0 0.1rem;
   font-size: 0.875rem;
-  color: #a32020;
+  color: #b42318;
 }
 
 .login-submit {
-  margin-top: 0.75rem;
-  padding: 0.65rem 1rem;
-  border: none;
-  border-radius: 6px;
-  background: #1a5276;
+  margin-top: 0.95rem;
+  padding: 0.86rem 1rem;
+  border: 0;
+  border-radius: 12px;
+  background: linear-gradient(135deg, #1d4ed8, #4f46e5);
   color: #fff;
-  font-weight: 600;
+  font-weight: 700;
+  letter-spacing: 0.02em;
   cursor: pointer;
+  box-shadow:
+    0 8px 18px rgb(37 99 235 / 0.32),
+    0 2px 6px rgb(37 99 235 / 0.24);
+  transition:
+    transform 180ms ease,
+    box-shadow 180ms ease,
+    filter 180ms ease;
 }
 
 .login-submit:hover:not(:disabled) {
-  background: #174361;
+  transform: translateY(-1px);
+  filter: brightness(1.03);
+  box-shadow:
+    0 12px 24px rgb(37 99 235 / 0.36),
+    0 3px 8px rgb(37 99 235 / 0.26);
 }
 
 .login-submit:disabled {
   opacity: 0.7;
   cursor: not-allowed;
+  box-shadow: none;
 }
