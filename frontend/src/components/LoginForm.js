@@ -20,25 +20,32 @@ export default function LoginForm() {
 
     setPending(true);
     try {
-      const res = await fetch(apiUrl("/login"), {
+      const url = apiUrl("/login");
+      const res = await fetch(url, {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({ password: password.trim() }),
       });
 
-      const ct = res.headers.get("content-type") || "";
-      const data =
-        ct.includes("application/json")
-          ? await res.json().catch(() => null)
-          : null;
+      const ct = (res.headers.get("content-type") || "").toLowerCase();
+      const rawBody = await res.text();
+      let data = null;
+      if (rawBody) {
+        try {
+          data = JSON.parse(rawBody);
+        } catch {
+          data = null;
+        }
+      }
 
       if (
         (!res.ok && res.status === 0) ||
-        (res.ok && ct.includes("text/html"))
+        (res.ok && ct.includes("text/html")) ||
+        (res.ok && data == null && /<!doctype html/i.test(rawBody))
       ) {
         setError(
           process.env.NODE_ENV === "production"
-            ? "Cannot reach the API. In Vercel, set environment variable REACT_APP_API_URL to your deployed backend URL (no trailing slash), then redeploy."
+            ? "Cannot reach the API. In Vercel, set REACT_APP_API_URL to your Fly (or other) API base URL (https://…, no quotes, no trailing slash), save for Production, then redeploy the site."
             : "Cannot reach the API. Start the backend (npm run dev in backend/) so it listens on the same port as the frontend proxy."
         );
         return;
@@ -50,13 +57,18 @@ export default function LoginForm() {
         return;
       }
 
+      if (data && typeof data.error === "string") {
+        setError(data.error);
+        return;
+      }
+
+      const preview = rawBody.replace(/\s+/g, " ").trim().slice(0, 120);
       setError(
-        (data && data.error) ||
-          (!data
-            ? process.env.NODE_ENV === "production"
-              ? "Bad response from server. Check REACT_APP_API_URL points to your API and redeploy."
-              : "Bad response from server. Is the backend running?"
-            : "Invalid password.")
+        data == null
+          ? process.env.NODE_ENV === "production"
+            ? `API returned non-JSON (HTTP ${res.status}). Check REACT_APP_API_URL (${url.split("/login")[0] || "not set"}) and redeploy. Preview: ${preview || "(empty)"}`
+            : `Bad response from server (HTTP ${res.status}). Is the backend running? ${preview || ""}`
+          : "Invalid password."
       );
     } catch {
       setError("Something went wrong. Please try again.");

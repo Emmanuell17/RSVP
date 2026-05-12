@@ -1,0 +1,6 @@
+{
+  "name": "rsvp-website",
+  "description": "Monorepo: Heroku runs the Express API from /backend via root package.json scripts.",
+  "repository": "https://github.com/Emmanuell17/RSVP-website-",
+  "buildpacks": [{ "url": "heroku/nodejs" }]
+}
