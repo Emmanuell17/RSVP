@@ -8,7 +8,9 @@ const connectionString = process.env.DATABASE_URL || "";
 function useSsl(cs) {
   if (process.env.DATABASE_SSL === "false") return false;
   if (process.env.DATABASE_SSL === "true") return true;
-  return /(?:[?&]sslmode=require|[?&]ssl=true\b)/i.test(cs);
+  /* Heroku Postgres requires TLS; DATABASE_URL often omits ?sslmode=require */
+  if (process.env.DYNO) return true;
+  return /(?:[?&]sslmode=require|[?&]ssl=true\b)/i.test(cs || "");
 }
 
 const pool = new Pool({

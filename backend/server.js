@@ -272,8 +272,19 @@ async function start() {
     process.exit(1);
   }
 
+  console.log(
+    JSON.stringify({
+      boot: "rsvp-backend",
+      node: process.version,
+      port: PORT,
+      herokuDyno: Boolean(process.env.DYNO),
+    })
+  );
+
   try {
+    console.log("Running database schema migration…");
     await ensureSchema();
+    console.log("Schema OK, starting HTTP server…");
     const server = app.listen(PORT, "0.0.0.0", () => {
       console.log(`Server listening on port ${PORT}`);
     });
@@ -290,6 +301,8 @@ async function start() {
     });
   } catch (err) {
     console.error("Failed to initialize database schema:", err);
+    if (err && err.code) console.error("Postgres error code:", err.code);
+    if (err && err.message) console.error("Postgres message:", err.message);
     process.exit(1);
   }
 }
