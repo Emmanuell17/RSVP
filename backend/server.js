@@ -54,6 +54,12 @@ app.get("/health", (req, res) => {
   res.type("text").send("OK");
 });
 
+app.get("/", (req, res) => {
+  res.type("text").send(
+    "RSVP API is running. Use GET /health to verify the dyno; the invitation site talks to /login and /rsvp."
+  );
+});
+
 app.post("/login", (req, res) => {
   const raw = req.body?.password;
   if (raw == null || String(raw).trim() === "") {
@@ -258,9 +264,17 @@ app.delete("/admin/rsvps/:id", requireAdmin, async (req, res) => {
 });
 
 async function start() {
+  const dbUrl = process.env.DATABASE_URL?.trim();
+  if (!dbUrl) {
+    console.error(
+      "FATAL: DATABASE_URL is not set. On Heroku: add the Postgres add-on (Resources → Find add-ons → Heroku Postgres) or set DATABASE_URL in Config Vars, then redeploy."
+    );
+    process.exit(1);
+  }
+
   try {
     await ensureSchema();
-    const server = app.listen(PORT, () => {
+    const server = app.listen(PORT, "0.0.0.0", () => {
       console.log(`Server listening on port ${PORT}`);
     });
 
