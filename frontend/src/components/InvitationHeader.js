@@ -3,6 +3,7 @@ import "./InvitationHeader.css";
 export default function InvitationHeader() {
   return (
     <header className="invitation-header">
+      <span className="invitation-accent-line" aria-hidden="true" />
       <h1 className="invitation-title">
         With great joy, we invite you to celebrate with us.
       </h1>

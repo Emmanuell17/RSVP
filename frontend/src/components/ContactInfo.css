@@ -1,28 +1,31 @@
 .contact-info {
-  margin-bottom: 1.75rem;
-  padding: 1.25rem 1.35rem;
-  background: #fff;
-  border-radius: 8px;
-  border: 1px solid #e8e8e8;
+  margin-bottom: 0;
 }
 
 .contact-heading {
-  font-size: 1.05rem;
-  font-weight: 600;
-  margin-bottom: 0.65rem;
+  font-size: clamp(1rem, 2.5vw, 1.12rem);
+  font-weight: 650;
+  margin-bottom: 0.75rem;
+  letter-spacing: -0.02em;
+  color: #0f172a;
 }
 
 .contact-info p {
-  margin: 0.35rem 0;
+  margin: 0.45rem 0;
   font-size: 0.95rem;
-  color: #333;
+  color: #334155;
+  line-height: 1.55;
 }
 
 .contact-info a {
-  color: #1a5276;
-  text-underline-offset: 2px;
+  color: #1d4ed8;
+  font-weight: 500;
+  text-underline-offset: 3px;
+  text-decoration-thickness: 1px;
+  transition: color 160ms ease;
 }
 
 .contact-info a:hover {
+  color: #1e40af;
   text-decoration: underline;
 }

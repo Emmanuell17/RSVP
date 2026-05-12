@@ -1,20 +1,136 @@
+/* ─── Invitation page: parallax backdrop + layered content ─── */
 .main-page {
+  --parallax-bg: 0px;
+  --parallax-orbs: 0px;
+  --surface: rgb(255 255 255 / 0.72);
+  --surface-border: rgb(255 255 255 / 0.38);
+  --surface-shadow: 0 4px 24px rgb(0 0 0 / 0.12);
+  --text-on-dark: #f8fafc;
+  --accent: #c4a35a;
+  --accent-soft: rgb(196 163 90 / 0.35);
+
+  position: relative;
+  isolation: isolate;
   flex: 1;
-  padding: 2rem 1rem 3rem;
+  min-height: 100vh;
+  overflow-x: clip;
+}
+
+.main-page__parallax {
+  position: fixed;
+  inset: 0;
+  z-index: 0;
+  pointer-events: none;
+  overflow: hidden;
+}
+
+.main-page__parallax-bg {
+  position: absolute;
+  inset: -12vh -5% -8vh;
+  background-image:
+    linear-gradient(
+      165deg,
+      rgb(15 23 42 / 0.82) 0%,
+      rgb(30 27 75 / 0.55) 42%,
+      rgb(15 23 42 / 0.75) 100%
+    ),
+    url("../assets/landing-bg.png");
+  background-size: cover;
+  background-position: center 28%;
+  background-repeat: no-repeat;
+  transform: translate3d(0, var(--parallax-bg), 0) scale(1.06);
+  will-change: transform;
+}
+
+.main-page__parallax-orbs {
+  position: absolute;
+  inset: 0;
+  background:
+    radial-gradient(
+      ellipse 90% 55% at 18% 22%,
+      rgb(196 163 90 / 0.22) 0%,
+      transparent 55%
+    ),
+    radial-gradient(
+      ellipse 70% 50% at 88% 12%,
+      rgb(129 140 248 / 0.18) 0%,
+      transparent 50%
+    ),
+    radial-gradient(
+      ellipse 60% 45% at 72% 88%,
+      rgb(196 163 90 / 0.12) 0%,
+      transparent 45%
+    );
+  transform: translate3d(0, var(--parallax-orbs), 0);
+  will-change: transform;
+}
+
+.main-page__parallax-veil {
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(
+    180deg,
+    rgb(15 23 42 / 0.15) 0%,
+    transparent 38%,
+    rgb(15 23 42 / 0.55) 72%,
+    rgb(15 23 42 / 0.88) 100%
+  );
+}
+
+.main-page__content {
+  position: relative;
+  z-index: 1;
   display: flex;
   justify-content: center;
+  padding: clamp(2rem, 6vw, 4rem) 1rem clamp(3.5rem, 8vw, 5rem);
 }
 
 .main-inner {
-  width: min(560px, 100%);
+  width: min(580px, 100%);
+  display: flex;
+  flex-direction: column;
+  gap: clamp(1.25rem, 3vw, 1.75rem);
 }
 
-.rsvp-closed-message {
-  margin: 0 0 1rem;
-  padding: 0.75rem 1rem;
-  background: #fff4e6;
-  border: 1px solid #e8cfa3;
-  border-radius: 6px;
-  color: #7a4617;
+/* Glass surfaces for stacked sections */
+.main-page .invitation-header,
+.main-page .contact-info,
+.main-page .rsvp-section,
+.main-page .rsvp-closed-message {
+  background: var(--surface);
+  border: 1px solid var(--surface-border);
+  border-radius: clamp(14px, 3vw, 20px);
+  box-shadow: var(--surface-shadow);
+  backdrop-filter: blur(16px) saturate(1.35);
+  -webkit-backdrop-filter: blur(16px) saturate(1.35);
+}
+
+.main-page .invitation-header {
+  padding: clamp(1.5rem, 4vw, 2.25rem) clamp(1.25rem, 3vw, 2rem);
+  margin-bottom: 0;
+}
+
+.main-page .contact-info {
+  margin-bottom: 0;
+  padding: clamp(1.25rem, 3vw, 1.65rem) clamp(1.35rem, 3vw, 1.75rem);
+}
+
+.main-page .rsvp-section {
+  padding: clamp(1.35rem, 3vw, 1.85rem) clamp(1.25rem, 3vw, 1.75rem);
+}
+
+.main-page .rsvp-closed-message {
+  margin: 0;
+  padding: 0.85rem 1.1rem;
+  background: rgb(254 243 199 / 0.88);
+  border-color: rgb(251 191 36 / 0.45);
+  color: #92400e;
   font-size: 0.95rem;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .main-page__parallax-bg,
+  .main-page__parallax-orbs {
+    transform: none !important;
+  }
 }

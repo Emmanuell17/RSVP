@@ -1,23 +1,55 @@
 .invitation-header {
   text-align: center;
-  margin-bottom: 2rem;
+  margin-bottom: 0;
+}
+
+.invitation-accent-line {
+  display: block;
+  width: 3rem;
+  height: 3px;
+  margin: 0 auto 1.25rem;
+  border-radius: 999px;
+  background: linear-gradient(
+    90deg,
+    transparent,
+    #b8954a,
+    #e8d5a3,
+    #b8954a,
+    transparent
+  );
+  box-shadow: 0 0 20px rgb(196 163 90 / 0.45);
 }
 
 .invitation-title {
-  font-size: clamp(1.5rem, 4vw, 2rem);
-  font-weight: 600;
-  letter-spacing: -0.03em;
-  line-height: 1.25;
+  font-size: clamp(1.45rem, 4.2vw, 2.05rem);
+  font-weight: 650;
+  letter-spacing: -0.035em;
+  line-height: 1.22;
   margin-bottom: 1rem;
+  color: #0f172a;
+  text-wrap: balance;
 }
 
 .invitation-notice-strong {
   font-weight: 600;
-  font-size: 1rem;
-  margin-bottom: 1rem;
+  font-size: 0.92rem;
+  margin-bottom: 0.85rem;
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+  color: #334155;
 }
 
 .invitation-deadline {
-  color: #333;
+  color: #475569;
   font-size: 0.95rem;
+  padding: 0.55rem 0.9rem;
+  display: inline-block;
+  border-radius: 999px;
+  background: rgb(15 23 42 / 0.06);
+  border: 1px solid rgb(15 23 42 / 0.08);
+}
+
+.invitation-deadline time {
+  font-weight: 600;
+  color: #1e293b;
 }

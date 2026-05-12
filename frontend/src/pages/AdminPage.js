@@ -145,7 +145,7 @@ export default function AdminPage() {
             className="admin-back-button"
             onClick={goToInvitationOrLogin}
           >
-            Back to invitation
+            Back to event
           </button>
         </div>
 
