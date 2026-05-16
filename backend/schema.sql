@@ -7,6 +7,9 @@ CREATE TABLE IF NOT EXISTS rsvps (
   created_at TIMESTAMP DEFAULT NOW()
 );
 
+CREATE UNIQUE INDEX IF NOT EXISTS rsvps_name_normalized_unique
+  ON rsvps (LOWER(TRIM(name)));
+
 CREATE TABLE IF NOT EXISTS admins (
   id SERIAL PRIMARY KEY,
   email TEXT NOT NULL UNIQUE,

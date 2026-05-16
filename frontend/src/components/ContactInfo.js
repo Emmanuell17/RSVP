@@ -10,9 +10,6 @@ export default function ContactInfo() {
         Email:{" "}
         <a href="mailto:events@example.com">adaokeke1971@gmail.com</a>
       </p>
-      <p>
-        Phone: <a href="tel:+15551234567">+1 (555) 123-4567</a>
-      </p>
     </section>
   );
 }

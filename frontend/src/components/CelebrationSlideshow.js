@@ -2,18 +2,18 @@ import { useCallback, useEffect, useRef, useState } from "react";
 import "./CelebrationSlideshow.css";
 
 const SLIDE_COUNT = 8;
+const AUTO_MS = 5200;
 
 const slides = Array.from({ length: SLIDE_COUNT }, (_, i) => {
   const n = String(i + 1).padStart(2, "0");
   return {
     src: `/images/slideshow/slide-${n}.png`,
-    alt: `Celebration photo ${i + 1} of ${SLIDE_COUNT}`,
+    alt: "Photo from the celebration",
   };
 });
 
 export default function CelebrationSlideshow() {
   const [index, setIndex] = useState(0);
-  const [paused, setPaused] = useState(false);
   const regionRef = useRef(null);
 
   const go = useCallback((delta) => {
@@ -21,12 +21,14 @@ export default function CelebrationSlideshow() {
   }, []);
 
   useEffect(() => {
-    if (paused) return undefined;
+    if (window.matchMedia("(prefers-reduced-motion: reduce)").matches) {
+      return undefined;
+    }
     const id = window.setInterval(() => {
       setIndex((i) => (i + 1) % SLIDE_COUNT);
-    }, 6000);
+    }, AUTO_MS);
     return () => window.clearInterval(id);
-  }, [paused]);
+  }, [index]);
 
   useEffect(() => {
     const el = regionRef.current;
@@ -45,59 +47,30 @@ export default function CelebrationSlideshow() {
     return () => el.removeEventListener("keydown", onKey);
   }, [go]);
 
-  const current = slides[index];
-
   return (
     <section
       ref={regionRef}
       className="celebration-slideshow"
       aria-roledescription="carousel"
-      aria-describedby="slideshow-hint"
+      aria-label="Celebration photos"
       tabIndex={0}
-      onMouseEnter={() => setPaused(true)}
-      onMouseLeave={() => setPaused(false)}
-      onFocus={() => setPaused(true)}
-      onBlur={(e) => {
-        if (!e.currentTarget.contains(e.relatedTarget)) setPaused(false);
-      }}
     >
-      <h2 className="celebration-slideshow__heading">Celebration moments</h2>
-      <p className="celebration-slideshow__hint" id="slideshow-hint">
-        Use the arrows or dots to browse. Slides advance automatically when you
-        are not hovering here.
-      </p>
-
       <div className="celebration-slideshow__viewport">
-        <img
-          key={current.src}
-          className="celebration-slideshow__img"
-          src={current.src}
-          alt={current.alt}
-          loading={index === 0 ? "eager" : "lazy"}
-          decoding="async"
-        />
-      </div>
-
-      <div className="celebration-slideshow__controls">
-        <button
-          type="button"
-          className="celebration-slideshow__btn"
-          onClick={() => go(-1)}
-          aria-label="Previous photo"
-        >
-          ‹
-        </button>
-        <span className="celebration-slideshow__counter" aria-live="polite">
-          {index + 1} / {SLIDE_COUNT}
-        </span>
-        <button
-          type="button"
-          className="celebration-slideshow__btn"
-          onClick={() => go(1)}
-          aria-label="Next photo"
-        >
-          ›
-        </button>
+        {slides.map((slide, i) => (
+          <img
+            key={slide.src}
+            className={
+              i === index
+                ? "celebration-slideshow__slide celebration-slideshow__slide--active"
+                : "celebration-slideshow__slide"
+            }
+            src={slide.src}
+            alt={i === index ? slide.alt : ""}
+            aria-hidden={i !== index}
+            loading={i === 0 ? "eager" : "lazy"}
+            decoding="async"
+          />
+        ))}
       </div>
 
       <div
@@ -111,7 +84,7 @@ export default function CelebrationSlideshow() {
             type="button"
             role="tab"
             aria-selected={i === index}
-            aria-label={`Show photo ${i + 1}`}
+            aria-label="Select this photo"
             className={
               i === index
                 ? "celebration-slideshow__dot celebration-slideshow__dot--active"

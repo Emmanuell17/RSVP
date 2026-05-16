@@ -1,28 +1,31 @@
 import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { apiUrl } from "../api";
+import {
+  ADMIN_TOKEN_KEY,
+  getAdminToken,
+  isGuestAuthenticated,
+  touchActivity,
+} from "../authSession";
 import "./AdminPage.css";
 
-const ADMIN_TOKEN_KEY = "adminToken";
-const GUEST_AUTH_KEY = "isAuthenticated";
-
-function getStoredAdminToken() {
-  return localStorage.getItem(ADMIN_TOKEN_KEY) || "";
-}
-
 function isGuestSignedIn() {
-  return localStorage.getItem(GUEST_AUTH_KEY) === "true";
+  return isGuestAuthenticated();
 }
 
 export default function AdminPage() {
   const navigate = useNavigate();
   const [password, setPassword] = useState("");
-  const [token, setToken] = useState(getStoredAdminToken());
+  const [token, setToken] = useState(getAdminToken());
   const [rsvps, setRsvps] = useState([]);
   const [totalAttending, setTotalAttending] = useState(0);
   const [pendingAuth, setPendingAuth] = useState(false);
   const [pendingLoad, setPendingLoad] = useState(false);
   const [deletingId, setDeletingId] = useState(null);
+  const [editingId, setEditingId] = useState(null);
+  const [editAttending, setEditAttending] = useState("yes");
+  const [editGuestCount, setEditGuestCount] = useState("0");
+  const [savingId, setSavingId] = useState(null);
   const [statusMessage, setStatusMessage] = useState("");
   const [errorMessage, setErrorMessage] = useState("");
 
@@ -88,6 +91,7 @@ export default function AdminPage() {
 
       localStorage.setItem(ADMIN_TOKEN_KEY, data.token);
       setToken(data.token);
+      touchActivity();
       setPassword("");
       setStatusMessage("Admin login successful.");
       await loadRsvps(data.token);
@@ -107,6 +111,68 @@ export default function AdminPage() {
     setErrorMessage("");
   }
 
+  function startEdit(row) {
+    setEditingId(row.id);
+    setEditAttending(row.attending ? "yes" : "no");
+    setEditGuestCount(String(Number(row.guest_count || 0)));
+    setErrorMessage("");
+    setStatusMessage("");
+  }
+
+  function cancelEdit() {
+    setEditingId(null);
+  }
+
+  async function saveRsvp(rsvpId) {
+    if (editAttending === "yes") {
+      const n = Number(editGuestCount);
+      if (editGuestCount === "" || !Number.isInteger(n) || n < 0) {
+        setErrorMessage("Enter a valid guest count (0 or more).");
+        return;
+      }
+    }
+
+    setSavingId(rsvpId);
+    setErrorMessage("");
+    setStatusMessage("");
+    try {
+      const payload = {
+        attending: editAttending === "yes",
+      };
+      if (editAttending === "yes") {
+        payload.guest_count = Number(editGuestCount);
+      }
+
+      const res = await fetch(apiUrl(`/admin/rsvps/${rsvpId}`), {
+        method: "PATCH",
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: `Bearer ${token}`,
+        },
+        body: JSON.stringify(payload),
+      });
+      const data = await res.json().catch(() => ({}));
+      if (!res.ok) {
+        throw new Error(data.error || "Could not update RSVP.");
+      }
+
+      setRsvps((current) =>
+        current.map((row) => (row.id === rsvpId ? data.rsvp : row))
+      );
+      setTotalAttending(Number(data.total_attending || 0));
+      setEditingId(null);
+      setStatusMessage(
+        `${data.rsvp?.name || "RSVP"} updated. Total attending: ${Number(
+          data.total_attending || 0
+        )}.`
+      );
+    } catch (err) {
+      setErrorMessage(err.message || "Could not update RSVP.");
+    } finally {
+      setSavingId(null);
+    }
+  }
+
   async function removeRsvp(rsvpId) {
     setDeletingId(rsvpId);
     setErrorMessage("");
@@ -122,6 +188,7 @@ export default function AdminPage() {
       }
 
       setRsvps((current) => current.filter((row) => row.id !== rsvpId));
+      if (editingId === rsvpId) setEditingId(null);
       setTotalAttending(Number(data.total_attending || 0));
       setStatusMessage(
         `${data.removed?.name || "Guest"} removed. Current total attending: ${Number(
@@ -186,22 +253,111 @@ export default function AdminPage() {
               <p>No RSVP records found.</p>
             ) : (
               <ul className="admin-rsvp-list">
-                {rsvps.map((row) => (
-                  <li key={row.id} className="admin-rsvp-item">
-                    <div>
-                      <p className="admin-rsvp-name">{row.name}</p>
-                      <p>Attending: {row.attending ? "Yes" : "No"}</p>
-                      <p>Additional guests: {Number(row.guest_count || 0)}</p>
-                    </div>
-                    <button
-                      type="button"
-                      onClick={() => removeRsvp(row.id)}
-                      disabled={deletingId === row.id}
-                    >
-                      {deletingId === row.id ? "Removing..." : "Remove"}
-                    </button>
-                  </li>
-                ))}
+                {rsvps.map((row) => {
+                  const isEditing = editingId === row.id;
+                  const partySize = row.attending
+                    ? Number(row.guest_count || 0) + 1
+                    : 0;
+                  return (
+                    <li key={row.id} className="admin-rsvp-item">
+                      <div className="admin-rsvp-body">
+                        <p className="admin-rsvp-name">{row.name}</p>
+                        {!isEditing ? (
+                          <>
+                            <p>Attending: {row.attending ? "Yes" : "No"}</p>
+                            <p>
+                              Household guests (excl. self):{" "}
+                              {Number(row.guest_count || 0)}
+                            </p>
+                            {row.attending ? (
+                              <p>Party size (incl. self): {partySize}</p>
+                            ) : null}
+                          </>
+                        ) : (
+                          <div className="admin-rsvp-edit">
+                            <label className="admin-edit-label">
+                              Attending
+                              <select
+                                value={editAttending}
+                                onChange={(e) => {
+                                  setEditAttending(e.target.value);
+                                  if (e.target.value === "no") {
+                                    setEditGuestCount("0");
+                                  }
+                                }}
+                                disabled={savingId === row.id}
+                              >
+                                <option value="yes">Yes</option>
+                                <option value="no">No</option>
+                              </select>
+                            </label>
+                            {editAttending === "yes" ? (
+                              <label className="admin-edit-label">
+                                Household guests (excl. self)
+                                <input
+                                  type="number"
+                                  min={0}
+                                  step={1}
+                                  value={editGuestCount}
+                                  onChange={(e) =>
+                                    setEditGuestCount(e.target.value)
+                                  }
+                                  disabled={savingId === row.id}
+                                />
+                              </label>
+                            ) : null}
+                          </div>
+                        )}
+                      </div>
+                      <div className="admin-rsvp-actions">
+                        {!isEditing ? (
+                          <>
+                            <button
+                              type="button"
+                              className="admin-btn-secondary"
+                              onClick={() => startEdit(row)}
+                              disabled={
+                                deletingId === row.id || savingId != null
+                              }
+                            >
+                              Edit
+                            </button>
+                            <button
+                              type="button"
+                              className="admin-btn-danger"
+                              onClick={() => removeRsvp(row.id)}
+                              disabled={
+                                deletingId === row.id || savingId != null
+                              }
+                            >
+                              {deletingId === row.id
+                                ? "Removing..."
+                                : "Remove"}
+                            </button>
+                          </>
+                        ) : (
+                          <>
+                            <button
+                              type="button"
+                              onClick={() => saveRsvp(row.id)}
+                              disabled={savingId === row.id}
+                            >
+                              {savingId === row.id ? "Saving..." : "Save"}
+                            </button>
+                            <button
+                              type="button"
+                              className="admin-btn-secondary"
+                              onClick={cancelEdit}
+                              disabled={savingId === row.id}
+                            >
+                              Cancel
+                            </button>
+                          </>
+                        )}
+                      </div>
+                    </li>
+                  );
+                })}
               </ul>
             )}
           </section>

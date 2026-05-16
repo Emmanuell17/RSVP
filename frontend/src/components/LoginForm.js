@@ -1,6 +1,7 @@
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { apiUrl } from "../api";
+import { touchActivity } from "../authSession";
 import "./LoginForm.css";
 
 export default function LoginForm() {
@@ -53,6 +54,7 @@ export default function LoginForm() {
 
       if (data && res.ok && data.success) {
         localStorage.setItem("isAuthenticated", "true");
+        touchActivity();
         navigate("/");
         return;
       }

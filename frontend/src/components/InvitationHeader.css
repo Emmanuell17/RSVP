@@ -30,6 +30,47 @@
   text-wrap: balance;
 }
 
+.invitation-details {
+  margin: 0 0 1.1rem;
+  padding: 0.75rem 1rem;
+  background: rgb(255 255 255 / 0.78);
+  border: 1px solid rgb(15 23 42 / 0.1);
+  border-radius: 12px;
+  box-shadow: 0 1px 6px rgb(0 0 0 / 0.06);
+}
+
+.invitation-datetime {
+  margin: 0 0 0.5rem;
+  font-size: clamp(1rem, 2.6vw, 1.12rem);
+  font-weight: 650;
+  line-height: 1.4;
+  color: #0f172a;
+}
+
+.invitation-datetime time {
+  font-weight: inherit;
+}
+
+.invitation-location {
+  margin: 0;
+  font-size: clamp(0.95rem, 2.4vw, 1.05rem);
+  line-height: 1.45;
+}
+
+.invitation-location-link {
+  color: #1d4ed8;
+  font-weight: 600;
+  text-decoration: none;
+  border-bottom: 1px solid rgb(29 78 216 / 0.35);
+  transition: color 160ms ease, border-color 160ms ease;
+}
+
+.invitation-location-link:hover,
+.invitation-location-link:focus-visible {
+  color: #1e3a8a;
+  border-bottom-color: rgb(30 58 138 / 0.55);
+}
+
 .invitation-notice-strong {
   font-weight: 600;
   font-size: 0.92rem;

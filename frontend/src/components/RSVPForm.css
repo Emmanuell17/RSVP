@@ -61,7 +61,7 @@
   padding: 0.65rem 0.75rem;
   border: 1px solid rgb(15 23 42 / 0.12);
   border-radius: 10px;
-  background: rgb(255 255 255 / 0.85);
+  background: rgb(255 255 255 / 0.9);
   width: 100%;
   transition:
     border-color 180ms ease,
@@ -110,6 +110,25 @@
   margin: 0;
   font-size: 0.8rem;
   color: #64748b;
+}
+
+.rsvp-label--guests {
+  font-size: 0.95rem;
+  font-weight: 650;
+  color: #0f172a;
+}
+
+.rsvp-hint--guests {
+  margin-top: 0.15rem;
+  padding: 0.55rem 0.7rem;
+  font-size: 0.92rem;
+  font-weight: 600;
+  line-height: 1.45;
+  color: #0f172a;
+  background: rgb(255 255 255 / 0.82);
+  border: 1px solid rgb(15 23 42 / 0.12);
+  border-radius: 8px;
+  box-shadow: 0 1px 4px rgb(0 0 0 / 0.06);
 }
 
 .rsvp-error {

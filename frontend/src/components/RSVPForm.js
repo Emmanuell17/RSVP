@@ -25,7 +25,7 @@ export default function RSVPForm({ disabled }) {
     if (attendingYes) {
       const n = Number(guestCount);
       if (guestCount === "" || !Number.isInteger(n) || n < 0) {
-        return "Please enter how many additional guests will attend.";
+        return "Please enter how many guests from your household will attend.";
       }
     }
     return "";
@@ -67,6 +67,11 @@ export default function RSVPForm({ disabled }) {
         setGuestCount("");
         setComment("");
         navigate("/rsvp-received");
+        return;
+      }
+
+      if (res.status === 409 && data.error) {
+        setServerError(data.error);
         return;
       }
 
@@ -152,8 +157,8 @@ export default function RSVPForm({ disabled }) {
         </div>
 
         {attendingYes && (
-          <div className="rsvp-field">
-            <label className="rsvp-label" htmlFor="rsvp-guests">
+          <div className="rsvp-field rsvp-field--guests">
+            <label className="rsvp-label rsvp-label--guests" htmlFor="rsvp-guests">
               Guest count<span className="rsvp-required">*</span>
             </label>
             <input
@@ -170,8 +175,8 @@ export default function RSVPForm({ disabled }) {
                 onFieldChange();
               }}
             />
-            <p className="rsvp-hint">
-              Enter extra guests only (do not include yourself).
+            <p className="rsvp-hint rsvp-hint--guests">
+              How many guests would you like to bring (from your household)?
             </p>
           </div>
         )}

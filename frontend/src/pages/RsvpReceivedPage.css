@@ -1,9 +1,89 @@
+/* Same invitation backdrop as MainPage (parallax + landing-bg) */
 .rsvp-received-page {
+  --parallax-bg: 0px;
+  --parallax-orbs: 0px;
+
+  position: relative;
+  isolation: isolate;
   flex: 1;
-  padding: 2rem 1rem 3rem;
+  min-height: 100vh;
+  overflow-x: clip;
+}
+
+.rsvp-received-page__parallax {
+  position: fixed;
+  inset: 0;
+  z-index: 0;
+  pointer-events: none;
+  overflow: hidden;
+}
+
+.rsvp-received-page__parallax-bg {
+  position: absolute;
+  inset: -12vh -5% -8vh;
+  background-image:
+    linear-gradient(
+      165deg,
+      rgb(15 23 42 / 0.28) 0%,
+      rgb(30 27 75 / 0.14) 42%,
+      rgb(15 23 42 / 0.24) 100%
+    ),
+    url("../assets/landing-bg.png");
+  background-size: cover;
+  background-position: center 28%;
+  background-repeat: no-repeat;
+  transform: translate3d(0, var(--parallax-bg), 0) scale(1.06);
+  will-change: transform;
+}
+
+.rsvp-received-page__parallax-orbs {
+  position: absolute;
+  inset: 0;
+  background:
+    radial-gradient(
+      ellipse 90% 55% at 18% 22%,
+      rgb(196 163 90 / 0.22) 0%,
+      transparent 55%
+    ),
+    radial-gradient(
+      ellipse 70% 50% at 88% 12%,
+      rgb(129 140 248 / 0.18) 0%,
+      transparent 50%
+    ),
+    radial-gradient(
+      ellipse 60% 45% at 72% 88%,
+      rgb(196 163 90 / 0.12) 0%,
+      transparent 45%
+    );
+  transform: translate3d(0, var(--parallax-orbs), 0);
+  will-change: transform;
+}
+
+.rsvp-received-page__parallax-veil {
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(
+    180deg,
+    rgb(15 23 42 / 0.05) 0%,
+    transparent 45%,
+    rgb(15 23 42 / 0.18) 72%,
+    rgb(15 23 42 / 0.38) 100%
+  );
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .rsvp-received-page__parallax-bg,
+  .rsvp-received-page__parallax-orbs {
+    transform: none !important;
+  }
+}
+
+.rsvp-received-page__content {
+  position: relative;
+  z-index: 1;
   display: flex;
   justify-content: center;
-  align-items: flex-start;
+  padding: clamp(2rem, 6vw, 4rem) 1rem clamp(3.5rem, 8vw, 5rem);
 }
 
 .rsvp-received-stack {
@@ -15,17 +95,13 @@
 
 .rsvp-received-card {
   width: 100%;
-  background: linear-gradient(
-    165deg,
-    rgb(255 255 255 / 0.95) 0%,
-    rgb(255 255 255 / 0.88) 100%
-  );
-  border: 1px solid rgb(226 232 240 / 0.9);
+  background: rgb(255 255 255 / 0.26);
+  border: 1px solid rgb(255 255 255 / 0.52);
   border-radius: clamp(14px, 3vw, 20px);
   padding: clamp(1.35rem, 3vw, 1.75rem) clamp(1.25rem, 3vw, 1.5rem);
-  box-shadow:
-    0 4px 24px rgb(0 0 0 / 0.08),
-    0 1px 3px rgb(0 0 0 / 0.04);
+  box-shadow: 0 4px 24px rgb(0 0 0 / 0.12);
+  backdrop-filter: blur(16px) saturate(1.35);
+  -webkit-backdrop-filter: blur(16px) saturate(1.35);
 }
 
 .rsvp-received-title {

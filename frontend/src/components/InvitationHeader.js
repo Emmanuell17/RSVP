@@ -1,5 +1,8 @@
 import "./InvitationHeader.css";
 
+const MAPS_URL =
+  "https://www.google.com/maps?q=Ebbells+gate+4,+0183+Oslo,+Norway&ftid=0x46416e616fd12ef7:0xcf454cf0252103f&entry=gps";
+
 export default function InvitationHeader() {
   return (
     <header className="invitation-header">
@@ -7,6 +10,23 @@ export default function InvitationHeader() {
       <h1 className="invitation-title">
         With great joy, we invite you to celebrate with us.
       </h1>
+      <div className="invitation-details">
+        <p className="invitation-datetime">
+          <time dateTime="2026-09-12T17:00">
+            12th of September 2026, 5pm
+          </time>
+        </p>
+        <p className="invitation-location">
+          <a
+            className="invitation-location-link"
+            href={MAPS_URL}
+            target="_blank"
+            rel="noopener noreferrer"
+          >
+            Ebbells gate 4, 0183 Oslo
+          </a>
+        </p>
+      </div>
       <p className="invitation-notice-strong">Strictly by Invitation</p>
       <p className="invitation-deadline">
         RSVP deadline: <time dateTime="2026-07-12">July 12, 2026</time>

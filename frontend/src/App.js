@@ -1,16 +1,17 @@
 import { BrowserRouter, Routes, Route, Navigate } from "react-router-dom";
+import InactivityGuard from "./components/InactivityGuard";
 import LoginPage from "./pages/LoginPage";
 import MainPage from "./pages/MainPage";
 import RsvpReceivedPage from "./pages/RsvpReceivedPage";
 import AdminPage from "./pages/AdminPage";
+import {
+  checkAndExpireSession,
+  isGuestAuthenticated,
+} from "./authSession";
 import "./App.css";
 
-function isAuthenticated() {
-  return localStorage.getItem("isAuthenticated") === "true";
-}
-
 function PrivateRoute({ children }) {
-  if (!isAuthenticated()) {
+  if (checkAndExpireSession() || !isGuestAuthenticated()) {
     return <Navigate to="/login" replace />;
   }
   return children;
@@ -19,6 +20,7 @@ function PrivateRoute({ children }) {
 export default function App() {
   return (
     <BrowserRouter>
+      <InactivityGuard />
       <div className="app-shell">
         <Routes>
           <Route path="/login" element={<LoginPage />} />

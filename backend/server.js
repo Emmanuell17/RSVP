@@ -5,6 +5,12 @@ const bodyParser = require("body-parser");
 const jwt = require("jsonwebtoken");
 const { pool, ensureSchema } = require("./db");
 const { sendRsvpNotification, sendRemovalNotification } = require("./email");
+const {
+  DUPLICATE_MESSAGE,
+  findRsvpByNormalizedName,
+  getTotalAttending,
+  validateRsvpFields,
+} = require("./rsvpUtils");
 
 const app = express();
 /* Default 5050: macOS often uses 5000 for AirPlay Receiver, causing EADDRINUSE. */
@@ -110,51 +116,39 @@ app.post("/admin/login", (req, res) => {
 app.post("/rsvp", async (req, res) => {
   const { name, attending, guest_count, comment } = req.body || {};
 
-  if (name == null || String(name).trim() === "") {
-    return res.status(400).json({ error: "Name is required" });
+  const validation = validateRsvpFields({ name, attending, guest_count });
+  if (!validation.ok) {
+    return res.status(validation.status).json({ error: validation.error });
   }
 
-  if (typeof attending !== "boolean") {
-    return res.status(400).json({ error: "Attending is required" });
-  }
-
-  if (attending === true) {
-    if (
-      guest_count == null ||
-      typeof guest_count !== "number" ||
-      !Number.isInteger(guest_count) ||
-      guest_count < 0
-    ) {
-      return res
-        .status(400)
-        .json({ error: "Guest count is required when attending" });
-    }
-  }
-
+  const trimmedName = String(name).trim();
   let guestCountValue = null;
   if (attending === true) {
     guestCountValue = guest_count;
   }
 
   try {
+    const existing = await findRsvpByNormalizedName(pool, trimmedName);
+    if (existing) {
+      return res.status(409).json({
+        error: DUPLICATE_MESSAGE,
+        code: "DUPLICATE_RSVP",
+      });
+    }
+
     await pool.query(
       `INSERT INTO rsvps (name, attending, guest_count, comment)
        VALUES ($1, $2, $3, $4)`,
-      [String(name).trim(), attending, guestCountValue, comment ?? null]
+      [trimmedName, attending, guestCountValue, comment ?? null]
     );
 
     let totalAttending = null;
     if (attending === true) {
-      const totalsResult = await pool.query(
-        `SELECT COALESCE(SUM(COALESCE(guest_count, 0) + 1), 0) AS total_attending
-         FROM rsvps
-         WHERE attending = true`
-      );
-      totalAttending = Number(totalsResult.rows[0]?.total_attending ?? 0);
+      totalAttending = await getTotalAttending(pool);
     }
 
     const emailPayload = {
-      name: String(name).trim(),
+      name: trimmedName,
       attending,
       guest_count: guestCountValue,
       comment: comment ?? null,
@@ -167,6 +161,12 @@ app.post("/rsvp", async (req, res) => {
     return res.json({ success: true });
   } catch (err) {
     console.error(err);
+    if (err && err.code === "23505") {
+      return res.status(409).json({
+        error: DUPLICATE_MESSAGE,
+        code: "DUPLICATE_RSVP",
+      });
+    }
     const body = { error: "Could not save RSVP" };
     /* Help local debugging; hide details in production. */
     if (process.env.NODE_ENV !== "production") {
@@ -185,14 +185,10 @@ app.get("/admin/rsvps", requireAdmin, async (req, res) => {
        FROM rsvps
        ORDER BY created_at DESC`
     );
-    const totalsResult = await pool.query(
-      `SELECT COALESCE(SUM(COALESCE(guest_count, 0) + 1), 0)::int AS total_attending
-       FROM rsvps
-       WHERE attending = true`
-    );
+    const totalAttending = await getTotalAttending(pool);
     return res.json({
       rsvps: rsvpsResult.rows,
-      total_attending: totalsResult.rows[0].total_attending,
+      total_attending: totalAttending,
     });
   } catch (err) {
     console.error(err);
@@ -224,16 +220,11 @@ app.delete("/admin/rsvps/:id", requireAdmin, async (req, res) => {
     const removed = selected.rows[0];
     await client.query("DELETE FROM rsvps WHERE id = $1", [rsvpId]);
 
-    const totals = await client.query(
-      `SELECT COALESCE(SUM(COALESCE(guest_count, 0) + 1), 0)::int AS total_attending
-       FROM rsvps
-       WHERE attending = true`
-    );
     await client.query("COMMIT");
 
     const removedGuests = removed.attending ? Number(removed.guest_count || 0) : 0;
     const removedPartySize = removed.attending ? removedGuests + 1 : 0;
-    const currentTotal = totals.rows[0].total_attending;
+    const currentTotal = await getTotalAttending(pool);
 
     sendRemovalNotification({
       name: removed.name,
@@ -260,6 +251,75 @@ app.delete("/admin/rsvps/:id", requireAdmin, async (req, res) => {
     return res.status(500).json({ error: "Could not remove RSVP" });
   } finally {
     client.release();
+  }
+});
+
+app.patch("/admin/rsvps/:id", requireAdmin, async (req, res) => {
+  const rsvpId = Number(req.params.id);
+  if (!Number.isInteger(rsvpId) || rsvpId <= 0) {
+    return res.status(400).json({ error: "Invalid RSVP id" });
+  }
+
+  const { attending, guest_count, comment } = req.body || {};
+
+  if (typeof attending !== "boolean") {
+    return res.status(400).json({ error: "Attending is required" });
+  }
+
+  if (attending === true) {
+    if (
+      guest_count == null ||
+      typeof guest_count !== "number" ||
+      !Number.isInteger(guest_count) ||
+      guest_count < 0
+    ) {
+      return res
+        .status(400)
+        .json({ error: "Guest count is required when attending" });
+    }
+  }
+
+  const guestCountValue = attending === true ? guest_count : null;
+
+  try {
+    const existing = await pool.query(
+      `SELECT id FROM rsvps WHERE id = $1`,
+      [rsvpId]
+    );
+    if (existing.rowCount === 0) {
+      return res.status(404).json({ error: "RSVP not found" });
+    }
+
+    const setClauses = ["attending = $1", "guest_count = $2"];
+    const params = [attending, guestCountValue];
+    let paramIndex = 3;
+
+    if (comment !== undefined) {
+      const commentValue = comment === null ? null : String(comment);
+      setClauses.push(`comment = $${paramIndex}`);
+      params.push(commentValue);
+      paramIndex += 1;
+    }
+
+    params.push(rsvpId);
+    const updated = await pool.query(
+      `UPDATE rsvps
+       SET ${setClauses.join(", ")}
+       WHERE id = $${paramIndex}
+       RETURNING id, name, attending, guest_count, comment, created_at`,
+      params
+    );
+
+    const totalAttending = await getTotalAttending(pool);
+
+    return res.json({
+      success: true,
+      rsvp: updated.rows[0],
+      total_attending: totalAttending,
+    });
+  } catch (err) {
+    console.error(err);
+    return res.status(500).json({ error: "Could not update RSVP" });
   }
 });
 
