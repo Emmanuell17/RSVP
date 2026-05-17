@@ -3,6 +3,7 @@
   padding: 24px 16px;
   display: flex;
   justify-content: center;
+  background: linear-gradient(180deg, #f4f2ee 0%, #ebe6dc 100%);
 }
 
 .admin-panel {
@@ -11,7 +12,8 @@
   background: #ffffff;
   border-radius: 14px;
   padding: 20px;
-  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.08);
+  border: 1px solid var(--color-surface-border-gold);
+  box-shadow: var(--color-surface-shadow);
 }
 
 .admin-header {
@@ -27,6 +29,9 @@
   margin: 0;
   flex: 1;
   min-width: 0;
+  font-family: var(--font-display);
+  font-weight: 600;
+  color: var(--color-navy-deep);
 }
 
 .admin-back-button {
@@ -60,13 +65,22 @@
   border: 0;
   border-radius: 8px;
   padding: 8px 12px;
-  background: #111827;
+  background: var(--color-navy);
   color: #ffffff;
   cursor: pointer;
+  transition: filter 160ms ease;
+}
+
+.admin-mode-switch button:hover,
+.admin-auth-form button:hover,
+.admin-toolbar-actions button:hover,
+.admin-rsvp-item button:hover {
+  filter: brightness(1.08);
 }
 
 .admin-mode-switch button.active {
-  background: #374151;
+  background: var(--color-gold-dark);
+  color: var(--color-navy-deep);
 }
 
 .admin-auth-form {
@@ -78,6 +92,14 @@
   padding: 8px 10px;
   border: 1px solid #d1d5db;
   border-radius: 8px;
+}
+
+.admin-auth-form input:focus,
+.admin-edit-label select:focus,
+.admin-edit-label input:focus {
+  outline: none;
+  border-color: var(--color-focus);
+  box-shadow: 0 0 0 3px var(--color-focus-ring);
 }
 
 .admin-data {

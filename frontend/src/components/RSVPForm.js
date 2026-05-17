@@ -124,8 +124,9 @@ export default function RSVPForm({ disabled }) {
             role="group"
             aria-labelledby="rsvp-attending-label"
           >
-            <label className="rsvp-radio-label">
+            <label className="rsvp-radio">
               <input
+                className="rsvp-radio__input"
                 type="radio"
                 name="attending"
                 value="yes"
@@ -135,11 +136,13 @@ export default function RSVPForm({ disabled }) {
                   setAttending("yes");
                   onFieldChange();
                 }}
-              />{" "}
-              Yes
+              />
+              <span className="rsvp-radio__control" aria-hidden="true" />
+              <span className="rsvp-radio__text">Yes</span>
             </label>
-            <label className="rsvp-radio-label">
+            <label className="rsvp-radio">
               <input
+                className="rsvp-radio__input"
                 type="radio"
                 name="attending"
                 value="no"
@@ -150,8 +153,9 @@ export default function RSVPForm({ disabled }) {
                   setGuestCount("");
                   onFieldChange();
                 }}
-              />{" "}
-              No
+              />
+              <span className="rsvp-radio__control" aria-hidden="true" />
+              <span className="rsvp-radio__text">No</span>
             </label>
           </div>
         </div>
@@ -210,7 +214,7 @@ export default function RSVPForm({ disabled }) {
           </p>
         )}
         <button className="rsvp-submit" type="submit" disabled={formDisabled}>
-          {pending ? "Sending…" : disabled ? "RSVP closed" : "Submit RSVP"}
+          {pending ? "Sending…" : disabled ? "RSVP closed" : "Send my RSVP"}
         </button>
       </form>
     </section>

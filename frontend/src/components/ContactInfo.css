@@ -3,29 +3,30 @@
 }
 
 .contact-heading {
-  font-size: clamp(1rem, 2.5vw, 1.12rem);
-  font-weight: 650;
+  font-family: var(--font-display);
+  font-size: clamp(1.1rem, 2.8vw, 1.28rem);
+  font-weight: 600;
   margin-bottom: 0.75rem;
-  letter-spacing: -0.02em;
-  color: #0f172a;
+  letter-spacing: 0.02em;
+  color: var(--color-navy-deep);
 }
 
 .contact-info p {
   margin: 0.45rem 0;
   font-size: 0.95rem;
-  color: #334155;
+  color: var(--color-ink-muted);
   line-height: 1.55;
 }
 
 .contact-info a {
-  color: #1d4ed8;
-  font-weight: 500;
+  color: var(--link-color);
+  font-weight: 600;
   text-underline-offset: 3px;
   text-decoration-thickness: 1px;
   transition: color 160ms ease;
 }
 
 .contact-info a:hover {
-  color: #1e40af;
+  color: var(--link-color-hover);
   text-decoration: underline;
 }

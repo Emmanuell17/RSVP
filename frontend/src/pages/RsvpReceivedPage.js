@@ -1,5 +1,6 @@
 import { useEffect, useRef } from "react";
 import CelebrationSlideshow from "../components/CelebrationSlideshow";
+import { IconCheckCircle } from "../components/EventIcons";
 import "./RsvpReceivedPage.css";
 
 export default function RsvpReceivedPage() {
@@ -35,7 +36,7 @@ export default function RsvpReceivedPage() {
 
   return (
     <main ref={mainRef} className="rsvp-received-page">
-      <div className="rsvp-received-page__parallax" aria-hidden="true">
+      <div className="rsvp-received-page__parallax texture-grain" aria-hidden="true">
         <div className="rsvp-received-page__parallax-bg" />
         <div className="rsvp-received-page__parallax-orbs" />
         <div className="rsvp-received-page__parallax-veil" />
@@ -46,6 +47,7 @@ export default function RsvpReceivedPage() {
             className="rsvp-received-card"
             aria-labelledby="rsvp-received-title"
           >
+            <IconCheckCircle className="rsvp-received-icon" />
             <h1 id="rsvp-received-title" className="rsvp-received-title">
               RSVP received
             </h1>
@@ -54,6 +56,14 @@ export default function RsvpReceivedPage() {
             </p>
           </section>
           <CelebrationSlideshow />
+          <blockquote className="rsvp-received-verse">
+            <p className="rsvp-received-verse__text font-display">
+              For I know the plans I have for you, declares the Lord, plans to
+              prosper you and not to harm you, plans to give you hope and a
+              future.
+            </p>
+            <cite className="rsvp-received-verse__ref">Jeremiah 29:11</cite>
+          </blockquote>
         </div>
       </div>
     </main>

@@ -8,7 +8,7 @@ export default function ContactInfo() {
       </h2>
       <p>
         Email:{" "}
-        <a href="mailto:events@example.com">adaokeke1971@gmail.com</a>
+        <a href="mailto:adaokeke1971@gmail.com">adaokeke1971@gmail.com</a>
       </p>
     </section>
   );

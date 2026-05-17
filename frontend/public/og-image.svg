@@ -1,0 +1,17 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1200" height="630" viewBox="0 0 1200 630">
+  <defs>
+    <linearGradient id="bg" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#0f1a2e"/>
+      <stop offset="100%" stop-color="#1a2744"/>
+    </linearGradient>
+    <linearGradient id="gold" x1="0%" y1="50%" x2="100%" y2="50%">
+      <stop offset="0%" stop-color="#96783a"/>
+      <stop offset="50%" stop-color="#e8d5a3"/>
+      <stop offset="100%" stop-color="#96783a"/>
+    </linearGradient>
+  </defs>
+  <rect width="1200" height="630" fill="url(#bg)"/>
+  <rect x="420" y="280" width="360" height="4" rx="2" fill="url(#gold)"/>
+  <text x="600" y="240" fill="#f8f6f0" font-family="Georgia, serif" font-size="52" text-anchor="middle">You&apos;re Invited</text>
+  <text x="600" y="360" fill="#c4a35a" font-family="Georgia, serif" font-size="28" text-anchor="middle">RSVP</text>
+</svg>

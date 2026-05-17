@@ -51,13 +51,13 @@ export default function MainPage() {
 
   return (
     <main ref={mainRef} className="main-page">
-      <div className="main-page__parallax" aria-hidden="true">
+      <div className="main-page__parallax texture-grain" aria-hidden="true">
         <div className="main-page__parallax-bg" />
         <div className="main-page__parallax-orbs" />
         <div className="main-page__parallax-veil" />
       </div>
       <div className="main-page__content">
-        <div className="main-inner">
+        <div className="main-inner page-enter-stagger">
           <InvitationHeader />
           <ContactInfo />
           {closed && (
