@@ -1,4 +1,5 @@
 import { useEffect, useRef } from "react";
+import GuestLogoutButton from "../components/GuestLogoutButton";
 import InvitationHeader from "../components/InvitationHeader";
 import ContactInfo from "../components/ContactInfo";
 import RSVPForm from "../components/RSVPForm";
@@ -58,6 +59,7 @@ export default function MainPage() {
       </div>
       <div className="main-page__content">
         <div className="main-inner page-enter-stagger">
+          <GuestLogoutButton />
           <InvitationHeader />
           <ContactInfo />
           {closed && (

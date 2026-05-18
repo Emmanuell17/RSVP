@@ -161,12 +161,6 @@ app.post("/rsvp", async (req, res) => {
     return res.json({ success: true });
   } catch (err) {
     console.error(err);
-    if (err && err.code === "23505") {
-      return res.status(409).json({
-        error: DUPLICATE_MESSAGE,
-        code: "DUPLICATE_RSVP",
-      });
-    }
     const body = { error: "Could not save RSVP" };
     /* Help local debugging; hide details in production. */
     if (process.env.NODE_ENV !== "production") {

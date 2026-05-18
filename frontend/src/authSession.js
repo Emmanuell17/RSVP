@@ -27,6 +27,12 @@ export function clearSession() {
   sessionStorage.removeItem(LAST_ACTIVITY_KEY);
 }
 
+/** End guest invitation access; returns user to the password screen. */
+export function logoutGuest() {
+  localStorage.removeItem(GUEST_AUTH_KEY);
+  sessionStorage.removeItem(LAST_ACTIVITY_KEY);
+}
+
 export function isInactive() {
   const raw = sessionStorage.getItem(LAST_ACTIVITY_KEY);
   if (!raw) return false;

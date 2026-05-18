@@ -1,5 +1,6 @@
 import { useEffect, useRef } from "react";
 import CelebrationSlideshow from "../components/CelebrationSlideshow";
+import GuestLogoutButton from "../components/GuestLogoutButton";
 import { IconCheckCircle } from "../components/EventIcons";
 import "./RsvpReceivedPage.css";
 
@@ -43,6 +44,7 @@ export default function RsvpReceivedPage() {
       </div>
       <div className="rsvp-received-page__content">
         <div className="rsvp-received-stack">
+          <GuestLogoutButton />
           <section
             className="rsvp-received-card"
             aria-labelledby="rsvp-received-title"
