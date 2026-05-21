@@ -6,7 +6,7 @@ const EVENTS = [
     id: "ceremony",
     label: "Ceremony",
     dateTime: "2026-09-12T11:00",
-    timeLabel: "12th of September 2026, 11:00 am",
+    timeLabel: "12th of September 2026, 11am",
     venue: "Åssiden kirke",
     address: "Åkerveien 2, 3024 Drammen",
     mapsUrl:
