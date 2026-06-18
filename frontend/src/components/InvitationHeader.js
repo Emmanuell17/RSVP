@@ -67,7 +67,7 @@ export default function InvitationHeader() {
       </div>
       <p className="invitation-notice-strong">Strictly by Invitation</p>
       <p className="invitation-deadline">
-        RSVP deadline: <time dateTime="2026-07-12">July 12, 2026</time>
+        RSVP deadline: <time dateTime="2026-08-12">August 12, 2026</time>
       </p>
     </header>
   );
