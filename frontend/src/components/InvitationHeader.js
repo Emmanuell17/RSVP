@@ -18,9 +18,9 @@ const EVENTS = [
     dateTime: "2026-09-12T17:00",
     timeLabel: "12th of September 2026, 5pm",
     venue: "2104EventsByJose",
-    address: "Ebbells gate 4, 0183 Oslo",
+    address: "Tvetenveien 158, 0670 Oslo, Norge",
     mapsUrl:
-      "https://www.google.com/maps?q=Ebbells+gate+4,+0183+Oslo,+Norway&ftid=0x46416e616fd12ef7:0xcf454cf0252103f&entry=gps",
+      "https://www.google.com/maps?q=Tvetenveien+158,+0670+Oslo,+Norge",
   },
 ];
 
