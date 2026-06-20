@@ -4,29 +4,76 @@
 
 .contact-heading {
   font-family: var(--font-display);
-  font-size: clamp(1.1rem, 2.8vw, 1.28rem);
+  font-size: clamp(1.15rem, 3vw, 1.35rem);
   font-weight: 600;
-  margin-bottom: 0.75rem;
-  letter-spacing: 0.02em;
+  margin-bottom: 1rem;
+  letter-spacing: 0.01em;
   color: var(--color-navy-deep);
 }
 
-.contact-info p {
-  margin: 0.45rem 0;
+.contact-cards {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 10px;
+}
+
+.contact-card {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  padding: 0.85rem 1rem;
+  background: rgb(255 255 255 / 0.22);
+  border: 1px solid var(--color-surface-border-gold);
+  border-radius: 12px;
+  text-decoration: none;
+  transition: background var(--transition), transform var(--transition), box-shadow var(--transition);
+}
+
+.contact-card:hover {
+  background: rgb(255 255 255 / 0.36);
+  transform: translateY(-2px);
+  box-shadow: 0 6px 20px rgb(14 25 41 / 0.10);
+}
+
+.contact-card-icon {
+  width: 36px;
+  height: 36px;
+  border-radius: 9px;
+  background: var(--color-gold-glass);
+  border: 1px solid var(--color-surface-border-gold);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
   font-size: 0.95rem;
-  color: var(--color-ink-muted);
-  line-height: 1.55;
 }
 
-.contact-info a {
-  color: var(--link-color);
+.contact-card-body {
+  display: flex;
+  flex-direction: column;
+  gap: 1px;
+  min-width: 0;
+}
+
+.contact-card-type {
+  font-size: 0.68rem;
   font-weight: 600;
-  text-underline-offset: 3px;
-  text-decoration-thickness: 1px;
-  transition: color 160ms ease;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: var(--color-gold-dark);
 }
 
-.contact-info a:hover {
-  color: var(--link-color-hover);
-  text-decoration: underline;
+.contact-card-value {
+  font-size: 0.875rem;
+  font-weight: 600;
+  color: var(--color-navy-deep);
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+@media (max-width: 400px) {
+  .contact-cards {
+    grid-template-columns: 1fr;
+  }
 }

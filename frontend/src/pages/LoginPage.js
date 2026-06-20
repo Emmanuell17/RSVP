@@ -9,6 +9,11 @@ export default function LoginPage() {
   return (
     <main className="login-page" aria-labelledby="login-lead">
       <div className="login-panel">
+        <div className="login-ornament" aria-hidden="true">
+          <span className="login-ornament-line" />
+          <span className="login-ornament-mark">✦ ✦ ✦</span>
+          <span className="login-ornament-line" />
+        </div>
         {timedOut ? (
           <p className="login-timeout" role="status">
             Your session ended after 10 minutes of inactivity. Please sign in

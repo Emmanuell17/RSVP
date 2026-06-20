@@ -1,4 +1,5 @@
 import { IconCalendar, IconMapPin } from "./EventIcons";
+import CountdownTimer from "./CountdownTimer";
 import "./InvitationHeader.css";
 
 const EVENTS = [
@@ -6,7 +7,7 @@ const EVENTS = [
     id: "ceremony",
     label: "Ceremony",
     dateTime: "2026-09-12T11:00",
-    timeLabel: "12th of September 2026, 11am",
+    timeLabel: "12th September 2026 · 11:00 AM",
     venue: "Åssiden kirke",
     address: "Åkerveien 2, 3024 Drammen",
     mapsUrl:
@@ -16,9 +17,9 @@ const EVENTS = [
     id: "reception",
     label: "Reception",
     dateTime: "2026-09-12T17:00",
-    timeLabel: "12th of September 2026, 5pm",
+    timeLabel: "12th September 2026 · 5:00 PM",
     venue: "2104EventsByJose",
-    address: "Tvetenveien 158, 0670 Oslo, Norge",
+    address: "Tvetenveien 158, 0670 Oslo",
     mapsUrl:
       "https://www.google.com/maps?q=Tvetenveien+158,+0670+Oslo,+Norge",
   },
@@ -27,20 +28,35 @@ const EVENTS = [
 export default function InvitationHeader() {
   return (
     <header className="invitation-header">
-      <span className="invitation-accent-line" aria-hidden="true" />
+      {/* Ornament */}
+      <div className="invitation-ornament" aria-hidden="true">
+        <span className="invitation-ornament-line" />
+        <span className="invitation-ornament-diamond">✦ ✦ ✦</span>
+        <span className="invitation-ornament-line" />
+      </div>
+
+      {/* Label */}
+      <p className="invitation-label">You are cordially invited</p>
+
+      {/* Title split: italic intro + bold name */}
       <h1 className="invitation-title font-display">
-        With great joy, we invite you to celebrate the confirmation of Ngozi Roselyn Amarachi Okeke-Nwakamma
+        With great joy, we celebrate
       </h1>
+      <p className="invitation-name-block font-display">
+        Ngozi Roselyn<br />Amarachi Okeke-Nwakamma
+      </p>
+
+      {/* Gold rule */}
+      <div className="invitation-rule" aria-hidden="true" />
+
+      {/* Event cards */}
       <div className="invitation-details">
-        {EVENTS.map((event, index) => (
+        {EVENTS.map((event) => (
           <section
             key={event.id}
             className="invitation-event"
             aria-labelledby={`invitation-${event.id}-heading`}
           >
-            {index > 0 ? (
-              <hr className="invitation-event-divider" aria-hidden="true" />
-            ) : null}
             <h2
               id={`invitation-${event.id}-heading`}
               className="invitation-event-label"
@@ -59,16 +75,23 @@ export default function InvitationHeader() {
                 target="_blank"
                 rel="noopener noreferrer"
               >
-                {event.venue} - {event.address}
+                {event.venue} — {event.address}
               </a>
             </p>
           </section>
         ))}
       </div>
-      <p className="invitation-notice-strong">Strictly by Invitation</p>
-      <p className="invitation-deadline">
-        RSVP deadline: <time dateTime="2026-08-12">August 12, 2026</time>
-      </p>
+
+      {/* Countdown */}
+      <CountdownTimer />
+
+      {/* Footer */}
+      <div className="invitation-footer">
+        <p className="invitation-notice-strong">Strictly by Invitation</p>
+        <p className="invitation-deadline">
+          RSVP by <time dateTime="2026-08-12">12th August 2026</time>
+        </p>
+      </div>
     </header>
   );
 }
