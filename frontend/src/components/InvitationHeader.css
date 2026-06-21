@@ -21,21 +21,20 @@
 
 .invitation-ornament-diamond {
   font-size: 0.75rem;
-  color: var(--color-gold);
+  color: var(--color-gold-text);
   letter-spacing: 0.15em;
-  opacity: 0.9;
+  font-weight: 700;
 }
 
 /* ── Title ── */
 .invitation-label {
   font-family: var(--font-cinzel);
   font-size: 0.68rem;
-  font-weight: 500;
+  font-weight: 700;
   letter-spacing: 0.28em;
   text-transform: uppercase;
-  color: var(--color-gold);
+  color: var(--color-gold-text);
   margin: 0 0 1rem;
-  opacity: 0.85;
 }
 
 .invitation-title {
@@ -126,10 +125,10 @@
   margin: 0;
   font-family: var(--font-cinzel);
   font-size: 0.65rem;
-  font-weight: 600;
+  font-weight: 700;
   letter-spacing: 0.22em;
   text-transform: uppercase;
-  color: var(--color-gold-dark);
+  color: var(--color-gold-text);
   display: flex;
   align-items: center;
   gap: 6px;
@@ -158,8 +157,7 @@
 .invitation-detail-icon {
   flex-shrink: 0;
   margin-top: 0.15rem;
-  color: var(--color-gold-dark);
-  opacity: 0.8;
+  color: var(--color-gold-text);
 }
 
 .invitation-datetime {

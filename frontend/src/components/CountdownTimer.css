@@ -8,12 +8,11 @@
 .countdown-eyebrow {
   font-family: var(--font-cinzel);
   font-size: 0.68rem;
-  font-weight: 500;
+  font-weight: 700;
   letter-spacing: 0.22em;
   text-transform: uppercase;
-  color: var(--color-gold);
+  color: var(--color-gold-text);
   margin: 0 0 1rem;
-  opacity: 0.85;
 }
 
 .countdown-grid {
@@ -56,18 +55,18 @@
 .countdown-label {
   font-family: var(--font-cinzel);
   font-size: 0.58rem;
-  font-weight: 500;
+  font-weight: 700;
   letter-spacing: 0.18em;
   text-transform: uppercase;
-  color: var(--color-gold-dark);
+  color: var(--color-gold-text);
 }
 
 .countdown-sep {
   font-family: var(--font-display);
   font-size: clamp(1.6rem, 4vw, 2.2rem);
-  font-weight: 300;
-  color: var(--color-gold);
-  opacity: 0.45;
+  font-weight: 600;
+  color: var(--color-gold-text);
+  opacity: 0.7;
   margin: 0 -2px;
   padding-bottom: 1.2rem;
   align-self: center;
