@@ -24,9 +24,9 @@
   background-image:
     linear-gradient(
       165deg,
-      rgb(15 26 46 / 0.3) 0%,
-      rgb(26 39 68 / 0.12) 42%,
-      rgb(15 26 46 / 0.26) 100%
+      rgb(15 26 46 / 0.25) 0%,
+      rgb(26 39 68 / 0.08) 42%,
+      rgb(15 26 46 / 0.22) 100%
     ),
     url("../assets/landing-bg.png");
   background-size: cover;
@@ -41,18 +41,18 @@
   inset: 0;
   background:
     radial-gradient(
-      ellipse 90% 55% at 18% 22%,
-      rgb(196 163 90 / 0.24) 0%,
+      ellipse 80% 50% at 18% 20%,
+      rgb(201 168 76 / 0.20) 0%,
       transparent 55%
     ),
     radial-gradient(
-      ellipse 70% 50% at 88% 12%,
-      rgb(184 149 74 / 0.14) 0%,
+      ellipse 65% 45% at 88% 12%,
+      rgb(184 149 74 / 0.12) 0%,
       transparent 50%
     ),
     radial-gradient(
-      ellipse 60% 45% at 72% 88%,
-      rgb(196 163 90 / 0.14) 0%,
+      ellipse 55% 40% at 70% 88%,
+      rgb(201 168 76 / 0.12) 0%,
       transparent 45%
     );
   transform: translate3d(0, var(--parallax-orbs), 0);
@@ -64,16 +64,16 @@
   inset: 0;
   background:
     radial-gradient(
-      ellipse 85% 70% at 50% 40%,
+      ellipse 80% 65% at 50% 40%,
       transparent 0%,
-      rgb(15 26 46 / 0.08) 100%
+      rgb(15 26 46 / 0.06) 100%
     ),
     linear-gradient(
       180deg,
-      rgb(15 26 46 / 0.04) 0%,
-      transparent 42%,
-      rgb(15 26 46 / 0.2) 75%,
-      rgb(15 26 46 / 0.42) 100%
+      rgb(15 26 46 / 0.02) 0%,
+      transparent 40%,
+      rgb(15 26 46 / 0.18) 75%,
+      rgb(15 26 46 / 0.38) 100%
     );
 }
 
@@ -82,17 +82,17 @@
   z-index: 1;
   display: flex;
   justify-content: center;
-  padding: clamp(2rem, 6vw, 4rem) 1rem clamp(3.5rem, 8vw, 5rem);
+  padding: clamp(2rem, 6vw, 4rem) 1rem clamp(4rem, 9vw, 6rem);
 }
 
 .main-inner {
-  width: min(580px, 100%);
+  width: min(620px, 100%);
   display: flex;
   flex-direction: column;
-  gap: clamp(1.25rem, 3vw, 1.75rem);
+  gap: clamp(1rem, 2.5vw, 1.5rem);
 }
 
-/* Glass surfaces for stacked sections */
+/* Glass surfaces */
 .main-page .invitation-header,
 .main-page .contact-info,
 .main-page .rsvp-section,
@@ -100,32 +100,31 @@
   background: var(--color-surface);
   border: 1px solid var(--color-surface-border-gold);
   border-radius: var(--radius-card);
-  box-shadow: var(--color-surface-shadow);
+  box-shadow: var(--shadow-card), inset 0 1px 0 rgb(255 255 255 / 0.28);
   backdrop-filter: var(--glass-blur);
   -webkit-backdrop-filter: var(--glass-blur);
 }
 
 .main-page .invitation-header {
-  padding: clamp(1.5rem, 4vw, 2.25rem) clamp(1.25rem, 3vw, 2rem);
-  margin-bottom: 0;
+  padding: clamp(1.75rem, 4.5vw, 2.5rem) clamp(1.5rem, 3.5vw, 2.25rem);
 }
 
 .main-page .contact-info {
-  margin-bottom: 0;
-  padding: clamp(1.25rem, 3vw, 1.65rem) clamp(1.35rem, 3vw, 1.75rem);
+  padding: clamp(1.25rem, 3vw, 1.75rem) clamp(1.35rem, 3vw, 1.85rem);
 }
 
 .main-page .rsvp-section {
-  padding: clamp(1.35rem, 3vw, 1.85rem) clamp(1.25rem, 3vw, 1.75rem);
+  padding: clamp(1.5rem, 3.5vw, 2rem) clamp(1.35rem, 3vw, 1.85rem);
 }
 
 .main-page .rsvp-closed-message {
   margin: 0;
-  padding: 0.85rem 1.1rem;
-  background: rgb(254 243 199 / 0.55);
-  border-color: rgb(196 163 90 / 0.5);
+  padding: 0.9rem 1.2rem;
+  background: rgb(254 243 199 / 0.60);
+  border-color: rgb(201 168 76 / 0.50);
   color: #78350f;
   font-size: 0.95rem;
+  font-weight: 500;
 }
 
 @media (prefers-reduced-motion: reduce) {

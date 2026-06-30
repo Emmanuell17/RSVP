@@ -96,6 +96,9 @@ export default function RSVPForm({ disabled }) {
       <h2 id="rsvp-heading" className="rsvp-heading">
         RSVP
       </h2>
+      <p className="rsvp-subheading">
+        Kindly let us know if you'll be joining the celebration.
+      </p>
       <form className="rsvp-form" onSubmit={handleSubmit}>
         <div className="rsvp-field">
           <label className="rsvp-label" htmlFor="rsvp-name">
