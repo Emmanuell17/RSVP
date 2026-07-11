@@ -7,9 +7,8 @@ The application is currently **actively used by the client**, who is satisfied w
 
 ---
 
-## 🎥 Demo Video
-
-> https://drive.google.com/drive/folders/1fEFaGCVEiJS_Kq3lxRimkYpFhDRtXqPT?usp=sharing
+## No Demo Video as the event is private 
+> 
 
 ---
 
