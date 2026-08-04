@@ -8,6 +8,28 @@
 }
 
 /* ── Header ── */
+.rsvp-invite-banner {
+  margin: 0 0 0.85rem;
+  padding: 0.55rem 0.75rem;
+  text-align: center;
+  font-family: var(--font-cinzel);
+  font-size: clamp(0.82rem, 2.4vw, 0.95rem);
+  font-weight: 700;
+  letter-spacing: 0.22em;
+  text-transform: uppercase;
+  color: var(--color-navy-deep);
+  background: linear-gradient(
+    90deg,
+    transparent 0%,
+    rgb(201 168 76 / 0.22) 18%,
+    rgb(238 223 160 / 0.38) 50%,
+    rgb(201 168 76 / 0.22) 82%,
+    transparent 100%
+  );
+  border-top: 1px solid var(--color-surface-border-gold);
+  border-bottom: 1px solid var(--color-surface-border-gold);
+}
+
 .rsvp-heading {
   font-family: var(--font-display);
   font-size: clamp(1.45rem, 3.5vw, 1.75rem);
@@ -18,11 +40,14 @@
 }
 
 .rsvp-subheading {
-  font-size: 0.98rem;
-  font-weight: 600;
-  color: var(--color-navy-deep);
   margin: 0 0 1.5rem;
-  line-height: 1.55;
+  font-family: var(--font-display);
+  font-size: clamp(1.05rem, 2.8vw, 1.2rem);
+  font-weight: 600;
+  font-style: italic;
+  line-height: 1.45;
+  color: var(--color-navy-deep);
+  text-wrap: balance;
 }
 
 .rsvp-form {

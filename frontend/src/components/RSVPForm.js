@@ -95,6 +95,7 @@ export default function RSVPForm({ disabled }) {
 
   return (
     <section className="rsvp-section" aria-labelledby="rsvp-heading">
+      <p className="rsvp-invite-banner">You are cordially invited</p>
       <h2 id="rsvp-heading" className="rsvp-heading">
         RSVP
       </h2>

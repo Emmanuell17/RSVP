@@ -42,18 +42,20 @@ export function IconCheckCircle({ className = "" }) {
   return (
     <svg
       className={className}
-      width="48"
-      height="48"
+      width="72"
+      height="72"
       viewBox="0 0 24 24"
-      fill="none"
-      stroke="currentColor"
-      strokeWidth="1.5"
-      strokeLinecap="round"
-      strokeLinejoin="round"
       aria-hidden="true"
     >
-      <circle cx="12" cy="12" r="10" />
-      <path d="m8.5 12.5 2.2 2.2 4.8-5" />
+      <circle cx="12" cy="12" r="11" fill="currentColor" />
+      <path
+        d="m7.2 12.3 3.1 3.1 6.5-6.8"
+        fill="none"
+        stroke="#fff"
+        strokeWidth="2.6"
+        strokeLinecap="round"
+        strokeLinejoin="round"
+      />
     </svg>
   );
 }
