@@ -28,8 +28,17 @@ export default function AdminPage() {
   const [savingId, setSavingId] = useState(null);
   const [statusMessage, setStatusMessage] = useState("");
   const [errorMessage, setErrorMessage] = useState("");
+  const [searchQuery, setSearchQuery] = useState("");
 
   const isSignedIn = Boolean(token);
+  const normalizedSearch = searchQuery.trim().toLowerCase();
+  const filteredRsvps = normalizedSearch
+    ? rsvps.filter((row) =>
+        String(row.name || "")
+          .toLowerCase()
+          .includes(normalizedSearch)
+      )
+    : rsvps;
 
   function goToInvitationOrLogin() {
     navigate(isGuestSignedIn() ? "/" : "/login");
@@ -107,6 +116,7 @@ export default function AdminPage() {
     setToken("");
     setRsvps([]);
     setTotalAttending(0);
+    setSearchQuery("");
     setStatusMessage("Logged out.");
     setErrorMessage("");
   }
@@ -247,13 +257,49 @@ export default function AdminPage() {
               </div>
             </div>
 
+            <div className="admin-search">
+              <label className="admin-search-label" htmlFor="admin-rsvp-search">
+                Search by name
+              </label>
+              <div className="admin-search-row">
+                <input
+                  id="admin-rsvp-search"
+                  className="admin-search-input"
+                  type="search"
+                  placeholder="Type a name…"
+                  value={searchQuery}
+                  onChange={(e) => setSearchQuery(e.target.value)}
+                  autoComplete="off"
+                  spellCheck={false}
+                />
+                {searchQuery ? (
+                  <button
+                    type="button"
+                    className="admin-btn-secondary"
+                    onClick={() => setSearchQuery("")}
+                  >
+                    Clear
+                  </button>
+                ) : null}
+              </div>
+              {!pendingLoad && rsvps.length > 0 ? (
+                <p className="admin-search-meta" role="status">
+                  {normalizedSearch
+                    ? `${filteredRsvps.length} of ${rsvps.length} match`
+                    : `${rsvps.length} RSVPs`}
+                </p>
+              ) : null}
+            </div>
+
             {pendingLoad ? (
               <p>Loading RSVPs...</p>
             ) : rsvps.length === 0 ? (
               <p>No RSVP records found.</p>
+            ) : filteredRsvps.length === 0 ? (
+              <p>No RSVPs match “{searchQuery.trim()}”.</p>
             ) : (
               <ul className="admin-rsvp-list">
-                {rsvps.map((row) => {
+                {filteredRsvps.map((row) => {
                   const isEditing = editingId === row.id;
                   const partySize = row.attending
                     ? Number(row.guest_count || 0) + 1

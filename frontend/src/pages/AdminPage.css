@@ -61,6 +61,7 @@
 .admin-mode-switch button,
 .admin-auth-form button,
 .admin-toolbar-actions button,
+.admin-search-row button,
 .admin-rsvp-item button {
   border: 0;
   border-radius: 8px;
@@ -74,6 +75,7 @@
 .admin-mode-switch button:hover,
 .admin-auth-form button:hover,
 .admin-toolbar-actions button:hover,
+.admin-search-row button:hover,
 .admin-rsvp-item button:hover {
   filter: brightness(1.08);
 }
@@ -117,6 +119,47 @@
 .admin-toolbar-actions {
   display: flex;
   gap: 8px;
+}
+
+.admin-search {
+  display: grid;
+  gap: 6px;
+}
+
+.admin-search-label {
+  font-size: 0.8rem;
+  font-weight: 600;
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+  color: #4b5563;
+}
+
+.admin-search-row {
+  display: flex;
+  gap: 8px;
+  align-items: center;
+}
+
+.admin-search-input {
+  flex: 1;
+  min-width: 0;
+  padding: 10px 12px;
+  border: 1px solid #d1d5db;
+  border-radius: 8px;
+  font: inherit;
+  background: #fff;
+}
+
+.admin-search-input:focus {
+  outline: none;
+  border-color: var(--color-focus);
+  box-shadow: 0 0 0 3px var(--color-focus-ring);
+}
+
+.admin-search-meta {
+  margin: 0;
+  font-size: 0.875rem;
+  color: #6b7280;
 }
 
 .admin-rsvp-list {
