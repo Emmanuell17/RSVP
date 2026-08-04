@@ -89,7 +89,7 @@ export default function InvitationHeader() {
       <div className="invitation-footer">
         <p className="invitation-notice-strong">Strictly by Invitation</p>
         <p className="invitation-deadline">
-          RSVP by <time dateTime="2026-07-31">31st July 2026</time>
+          RSVP by <time dateTime="2026-08-15">15th August 2026</time>
         </p>
       </div>
     </header>
