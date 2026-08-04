@@ -66,14 +66,14 @@
     radial-gradient(
       ellipse 85% 70% at 50% 40%,
       transparent 0%,
-      rgb(15 26 46 / 0.08) 100%
+      rgb(15 26 46 / 0.06) 100%
     ),
     linear-gradient(
       180deg,
-      rgb(15 26 46 / 0.04) 0%,
-      transparent 42%,
-      rgb(15 26 46 / 0.2) 75%,
-      rgb(15 26 46 / 0.42) 100%
+      transparent 0%,
+      transparent 35%,
+      rgb(15 26 46 / 0.16) 75%,
+      rgb(15 26 46 / 0.36) 100%
     );
 }
 
@@ -89,7 +89,7 @@
   z-index: 1;
   display: flex;
   justify-content: center;
-  padding: clamp(2rem, 6vw, 4rem) 1rem clamp(3.5rem, 8vw, 5rem);
+  padding: clamp(0.75rem, 2vw, 1.25rem) 1rem clamp(3.5rem, 8vw, 5rem);
 }
 
 .rsvp-received-stack {
@@ -97,6 +97,7 @@
   display: flex;
   flex-direction: column;
   gap: clamp(1.25rem, 3vw, 1.75rem);
+  position: relative;
 }
 
 .rsvp-received-card {
@@ -104,7 +105,8 @@
   background: var(--color-surface);
   border: 1px solid var(--color-surface-border-gold);
   border-radius: var(--radius-card);
-  padding: clamp(1.35rem, 3vw, 1.75rem) clamp(1.25rem, 3vw, 1.5rem);
+  padding: clamp(2rem, 4vw, 2.35rem) clamp(1.25rem, 3vw, 1.5rem)
+    clamp(1.35rem, 3vw, 1.75rem);
   box-shadow: var(--color-surface-shadow);
   backdrop-filter: var(--glass-blur);
   -webkit-backdrop-filter: var(--glass-blur);
@@ -112,11 +114,47 @@
   animation: pageEnter 0.55s ease-out both;
 }
 
-.rsvp-received-icon {
-  display: block;
+.rsvp-received-icon-wrap {
+  position: relative;
+  width: 4.5rem;
+  height: 4.5rem;
   margin: 0 auto 0.85rem;
+  display: grid;
+  place-items: center;
+}
+
+.rsvp-received-icon-wrap::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  border-radius: 50%;
+  background: radial-gradient(circle, rgb(201 168 76 / 0.35), transparent 70%);
+  animation: successGlow 2.4s ease-in-out infinite;
+}
+
+.rsvp-received-icon {
+  position: relative;
+  z-index: 1;
+  display: block;
   color: var(--color-gold-dark);
   animation: successPop 0.6s ease-out both;
+}
+
+.rsvp-received-text strong {
+  color: var(--color-navy-deep);
+  font-weight: 700;
+}
+
+@keyframes successGlow {
+  0%,
+  100% {
+    transform: scale(0.92);
+    opacity: 0.55;
+  }
+  50% {
+    transform: scale(1.08);
+    opacity: 1;
+  }
 }
 
 .rsvp-received-title {
@@ -172,6 +210,7 @@
 @media (prefers-reduced-motion: reduce) {
   .rsvp-received-card,
   .rsvp-received-icon,
+  .rsvp-received-icon-wrap::before,
   .rsvp-received-verse {
     animation: none;
   }

@@ -61,23 +61,7 @@
   overflow: hidden;
 }
 
-/* Gold top bar */
-.login-panel::before {
-  content: "";
-  position: absolute;
-  left: 0; right: 0; top: 0;
-  height: 3px;
-  background: linear-gradient(
-    90deg,
-    var(--color-gold-dark),
-    var(--color-gold-light),
-    var(--color-gold-mid),
-    var(--color-gold-light),
-    var(--color-gold-dark)
-  );
-  background-size: 200% 100%;
-  animation: shimmer 3.5s linear infinite;
-}
+/* Gold top bar removed */
 
 /* Subtle inner glow */
 .login-panel::after {
@@ -121,6 +105,41 @@
   font-size: 0.65rem;
   color: var(--color-gold);
   letter-spacing: 0.2em;
+}
+
+.login-hero {
+  text-align: center;
+  margin-bottom: 1.25rem;
+}
+
+.login-hero-photo {
+  width: 88px;
+  height: 88px;
+  object-fit: cover;
+  border-radius: 50%;
+  border: 2px solid var(--color-surface-border-gold);
+  box-shadow: 0 8px 24px rgb(14 25 41 / 0.18);
+  margin: 0 auto 0.85rem;
+  display: block;
+}
+
+.login-hero-label {
+  margin: 0 0 0.35rem;
+  font-family: var(--font-cinzel);
+  font-size: 0.62rem;
+  font-weight: 700;
+  letter-spacing: 0.24em;
+  text-transform: uppercase;
+  color: var(--color-gold-text);
+}
+
+.login-hero-name {
+  margin: 0;
+  font-size: clamp(1.15rem, 4vw, 1.45rem);
+  font-weight: 600;
+  line-height: 1.25;
+  color: var(--color-navy-deep);
+  text-wrap: balance;
 }
 
 .login-timeout {

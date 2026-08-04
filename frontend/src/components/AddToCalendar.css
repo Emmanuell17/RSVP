@@ -1,0 +1,92 @@
+.add-to-calendar {
+  width: 100%;
+  padding: clamp(1.15rem, 3vw, 1.45rem);
+  background: var(--color-surface);
+  border: 1px solid var(--color-surface-border-gold);
+  border-radius: var(--radius-card);
+  box-shadow: var(--shadow-card);
+  backdrop-filter: var(--glass-blur);
+  -webkit-backdrop-filter: var(--glass-blur);
+  animation: pageEnter 0.55s ease-out 0.12s both;
+}
+
+.add-to-calendar__heading {
+  margin: 0 0 0.35rem;
+  font-family: var(--font-display);
+  font-size: clamp(1.15rem, 3vw, 1.3rem);
+  font-weight: 600;
+  color: var(--color-navy-deep);
+  text-align: center;
+}
+
+.add-to-calendar__intro {
+  margin: 0 0 1rem;
+  text-align: center;
+  font-size: 0.95rem;
+  font-weight: 600;
+  color: var(--color-navy-deep);
+  line-height: 1.5;
+}
+
+.add-to-calendar__actions {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 10px;
+}
+
+.add-to-calendar__btn {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 0.2rem;
+  padding: 0.85rem 1rem;
+  border: 1.5px solid var(--color-surface-border-gold);
+  border-radius: var(--radius-control);
+  background: rgb(255 255 255 / 0.55);
+  cursor: pointer;
+  text-align: left;
+  transition:
+    transform 180ms ease,
+    box-shadow 180ms ease,
+    border-color 180ms ease,
+    background 180ms ease;
+}
+
+.add-to-calendar__btn:hover {
+  transform: translateY(-2px);
+  border-color: var(--color-gold);
+  background: rgb(255 255 255 / 0.78);
+  box-shadow: 0 6px 18px rgb(14 25 41 / 0.1);
+}
+
+.add-to-calendar__btn-label {
+  font-family: var(--font-cinzel);
+  font-size: 0.72rem;
+  font-weight: 700;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: var(--color-gold-text);
+}
+
+.add-to-calendar__btn-meta {
+  font-size: 0.82rem;
+  font-weight: 600;
+  color: var(--color-navy-deep);
+  line-height: 1.35;
+}
+
+@media (max-width: 420px) {
+  .add-to-calendar__actions {
+    grid-template-columns: 1fr;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .add-to-calendar {
+    animation: none;
+  }
+
+  .add-to-calendar__btn:hover {
+    transform: none;
+  }
+}

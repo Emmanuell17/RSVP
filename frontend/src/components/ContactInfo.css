@@ -6,8 +6,16 @@
   font-family: var(--font-display);
   font-size: clamp(1.15rem, 3vw, 1.35rem);
   font-weight: 600;
-  margin-bottom: 1rem;
+  margin-bottom: 0.5rem;
   letter-spacing: 0.01em;
+  color: var(--color-navy-deep);
+}
+
+.contact-intro {
+  margin: 0 0 1rem;
+  font-size: 0.95rem;
+  font-weight: 600;
+  line-height: 1.55;
   color: var(--color-navy-deep);
 }
 
@@ -45,7 +53,12 @@
   align-items: center;
   justify-content: center;
   flex-shrink: 0;
-  font-size: 0.95rem;
+  color: var(--color-gold-dark);
+}
+
+.contact-card-icon svg {
+  width: 18px;
+  height: 18px;
 }
 
 .contact-card-body {

@@ -1,10 +1,14 @@
 import { useEffect, useRef } from "react";
+import { useLocation } from "react-router-dom";
+import AddToCalendar from "../components/AddToCalendar";
 import CelebrationSlideshow from "../components/CelebrationSlideshow";
 import GuestLogoutButton from "../components/GuestLogoutButton";
 import { IconCheckCircle } from "../components/EventIcons";
 import "./RsvpReceivedPage.css";
 
 export default function RsvpReceivedPage() {
+  const location = useLocation();
+  const guestName = location.state?.guestName;
   const mainRef = useRef(null);
 
   useEffect(() => {
@@ -49,14 +53,27 @@ export default function RsvpReceivedPage() {
             className="rsvp-received-card"
             aria-labelledby="rsvp-received-title"
           >
-            <IconCheckCircle className="rsvp-received-icon" />
+            <div className="rsvp-received-icon-wrap">
+              <IconCheckCircle className="rsvp-received-icon" />
+            </div>
             <h1 id="rsvp-received-title" className="rsvp-received-title">
               RSVP received
             </h1>
             <p className="rsvp-received-text">
-              Thank you for responding. Your RSVP has been submitted successfully.
+              {guestName ? (
+                <>
+                  Thank you, <strong>{guestName}</strong>. We&apos;ve received
+                  your RSVP and look forward to celebrating with you.
+                </>
+              ) : (
+                <>
+                  Thank you for responding. Your RSVP has been submitted
+                  successfully.
+                </>
+              )}
             </p>
           </section>
+          <AddToCalendar />
           <CelebrationSlideshow />
           <blockquote className="rsvp-received-verse">
             <p className="rsvp-received-verse__text font-display">

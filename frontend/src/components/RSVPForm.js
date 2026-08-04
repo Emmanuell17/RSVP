@@ -66,7 +66,9 @@ export default function RSVPForm({ disabled }) {
         setAttending("");
         setGuestCount("");
         setComment("");
-        navigate("/rsvp-received");
+        navigate("/rsvp-received", {
+          state: { guestName: String(name).trim() },
+        });
         return;
       }
 

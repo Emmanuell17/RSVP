@@ -66,14 +66,14 @@
     radial-gradient(
       ellipse 80% 65% at 50% 40%,
       transparent 0%,
-      rgb(15 26 46 / 0.06) 100%
+      rgb(15 26 46 / 0.04) 100%
     ),
     linear-gradient(
       180deg,
-      rgb(15 26 46 / 0.02) 0%,
-      transparent 40%,
-      rgb(15 26 46 / 0.18) 75%,
-      rgb(15 26 46 / 0.38) 100%
+      transparent 0%,
+      transparent 35%,
+      rgb(15 26 46 / 0.14) 75%,
+      rgb(15 26 46 / 0.32) 100%
     );
 }
 
@@ -82,7 +82,7 @@
   z-index: 1;
   display: flex;
   justify-content: center;
-  padding: clamp(2rem, 6vw, 4rem) 1rem clamp(4rem, 9vw, 6rem);
+  padding: clamp(0.75rem, 2vw, 1.25rem) 1rem clamp(4rem, 9vw, 6rem);
 }
 
 .main-inner {
@@ -90,6 +90,7 @@
   display: flex;
   flex-direction: column;
   gap: clamp(1rem, 2.5vw, 1.5rem);
+  position: relative;
 }
 
 /* Glass surfaces */
@@ -107,6 +108,7 @@
 
 .main-page .invitation-header {
   padding: clamp(1.75rem, 4.5vw, 2.5rem) clamp(1.5rem, 3.5vw, 2.25rem);
+  padding-top: clamp(2.35rem, 5vw, 2.85rem);
 }
 
 .main-page .contact-info {

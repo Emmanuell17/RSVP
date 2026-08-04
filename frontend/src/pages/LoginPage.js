@@ -14,6 +14,19 @@ export default function LoginPage() {
           <span className="login-ornament-mark">✦ ✦ ✦</span>
           <span className="login-ornament-line" />
         </div>
+
+        <div className="login-hero">
+          <img
+            className="login-hero-photo"
+            src="/images/slideshow/slide-01.png"
+            alt=""
+          />
+          <p className="login-hero-label">Confirmation celebration</p>
+          <p className="login-hero-name font-display">
+            Ngozi Roselyn Amarachi Okeke-Nwakamma
+          </p>
+        </div>
+
         {timedOut ? (
           <p className="login-timeout" role="status">
             Your session ended after 10 minutes of inactivity. Please sign in
@@ -21,7 +34,8 @@ export default function LoginPage() {
           </p>
         ) : null}
         <p className="login-intro login-intro--lead" id="login-lead">
-          Enter the password you were given to view details and RSVP.
+          Enter your invitation password to view the celebration details and
+          RSVP.
         </p>
         <LoginForm />
         <p className="login-intro">

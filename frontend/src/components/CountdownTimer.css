@@ -76,4 +76,25 @@
   .countdown-num {
     transition: opacity 0.15s ease;
   }
+
+  .countdown-num--tick {
+    animation: countdownTick 420ms var(--ease-out);
+  }
+}
+
+@keyframes countdownTick {
+  0% {
+    opacity: 0.35;
+    transform: translateY(6px);
+  }
+  100% {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .countdown-num--tick {
+    animation: none;
+  }
 }
