@@ -1,4 +1,5 @@
 const nodemailer = require("nodemailer");
+const { Resend } = require("resend");
 
 function buildSummary({ name, attending, guest_count, comment, total_attending }) {
   const lines = [
@@ -21,9 +22,25 @@ function buildSummary({ name, attending, guest_count, comment, total_attending }
   return lines.join("\n");
 }
 
-/** Read SMTP settings; Gmail app passwords may be pasted with spaces. */
+function getNotifyEmail() {
+  return process.env.NOTIFY_EMAIL?.trim() || "";
+}
+
+function getResendApiKey() {
+  return process.env.RESEND_API_KEY?.trim() || "";
+}
+
+function getResendFrom() {
+  return (
+    process.env.RESEND_FROM?.trim() ||
+    process.env.SMTP_FROM?.trim() ||
+    "RSVP Alerts <onboarding@resend.dev>"
+  );
+}
+
+/** SMTP fallback (works locally; blocked on Railway Hobby). */
 function getSmtpConfig() {
-  const to = process.env.NOTIFY_EMAIL?.trim();
+  const to = getNotifyEmail();
   const host = process.env.SMTP_HOST?.trim();
   const user = process.env.SMTP_USER?.trim();
   const rawPass = process.env.SMTP_PASS;
@@ -37,60 +54,77 @@ function getSmtpConfig() {
   return { to, host, user, pass, port, secure, from };
 }
 
-function createTransporter({ host, port, secure, user, pass }) {
-  return nodemailer.createTransport({
+async function sendViaResend({ to, subject, text }) {
+  const apiKey = getResendApiKey();
+  const from = getResendFrom();
+  const resend = new Resend(apiKey);
+  const { data, error } = await resend.emails.send({
+    from,
+    to: [to],
+    subject,
+    text,
+  });
+  if (error) {
+    const message =
+      typeof error === "object" && error && error.message
+        ? error.message
+        : String(error);
+    throw new Error(`Resend API error: ${message}`);
+  }
+  console.log(
+    `RSVP notification email sent via Resend to ${to} (id=${data?.id || "n/a"})`
+  );
+}
+
+async function sendViaSmtp({ to, subject, text }) {
+  const { host, user, pass, port, secure, from } = getSmtpConfig();
+  if (!host || !user || !pass) {
+    console.warn(
+      "NOTIFY_EMAIL is set but neither RESEND_API_KEY nor SMTP settings are complete; skipping email."
+    );
+    return;
+  }
+
+  const transporter = nodemailer.createTransport({
     host,
     port,
     secure,
     auth: { user, pass },
   });
-}
-
-/**
- * Sends a one-off summary to NOTIFY_EMAIL when SMTP is configured.
- * Safe to call without awaiting for fire-and-forget; errors are thrown for logging.
- */
-async function sendRsvpNotification(payload) {
-  const { to, host, user, pass, port, secure, from } = getSmtpConfig();
-  if (!to) {
-    console.warn("NOTIFY_EMAIL is not set; skipping RSVP notification email.");
-    return;
-  }
-
-  if (!host || !user || !pass) {
-    console.warn(
-      "NOTIFY_EMAIL is set but SMTP_HOST / SMTP_USER / SMTP_PASS are incomplete; skipping email."
-    );
-    return;
-  }
-
-  const transporter = createTransporter({ host, port, secure, user, pass });
-  const text = buildSummary(payload);
-  const subject = process.env.NOTIFY_SUBJECT?.trim() || "New RSVP";
-
-  const info = await transporter.sendMail({
-    from,
-    to,
-    subject,
-    text,
-  });
+  const info = await transporter.sendMail({ from, to, subject, text });
   console.log(
-    `RSVP notification email sent to ${to} (messageId=${info.messageId || "n/a"})`
+    `RSVP notification email sent via SMTP to ${to} (messageId=${info.messageId || "n/a"})`
   );
 }
 
-async function sendRemovalNotification(payload) {
-  const { to, host, user, pass, port, secure, from } = getSmtpConfig();
-  if (!to) return;
-
-  if (!host || !user || !pass) {
-    console.warn(
-      "NOTIFY_EMAIL is set but SMTP_HOST / SMTP_USER / SMTP_PASS are incomplete; skipping email."
-    );
+/**
+ * Prefer Resend (HTTPS — works on Railway Hobby). Fall back to SMTP locally / Pro.
+ */
+async function sendMail({ subject, text }) {
+  const to = getNotifyEmail();
+  if (!to) {
+    console.warn("NOTIFY_EMAIL is not set; skipping notification email.");
     return;
   }
 
-  const transporter = createTransporter({ host, port, secure, user, pass });
+  if (getResendApiKey()) {
+    await sendViaResend({ to, subject, text });
+    return;
+  }
+
+  await sendViaSmtp({ to, subject, text });
+}
+
+/**
+ * Sends a one-off summary to NOTIFY_EMAIL when email is configured.
+ * Safe to call without awaiting for fire-and-forget; errors are thrown for logging.
+ */
+async function sendRsvpNotification(payload) {
+  const subject = process.env.NOTIFY_SUBJECT?.trim() || "New RSVP";
+  await sendMail({ subject, text: buildSummary(payload) });
+}
+
+async function sendRemovalNotification(payload) {
   const subject =
     process.env.NOTIFY_REMOVAL_SUBJECT?.trim() || "RSVP removed by admin";
   const text = [
@@ -101,11 +135,7 @@ async function sendRemovalNotification(payload) {
     `Removed party size (incl. attendee): ${payload.removedPartySize}`,
     `Current total attending: ${payload.currentAttendingTotal}`,
   ].join("\n");
-
-  const info = await transporter.sendMail({ from, to, subject, text });
-  console.log(
-    `RSVP removal email sent to ${to} (messageId=${info.messageId || "n/a"})`
-  );
+  await sendMail({ subject, text });
 }
 
 module.exports = { sendRsvpNotification, sendRemovalNotification, buildSummary };
