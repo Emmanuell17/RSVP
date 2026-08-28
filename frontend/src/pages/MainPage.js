@@ -13,10 +13,10 @@ function isRsvpDeadlinePassed() {
 
   if (year > 2026) return true;
   if (year < 2026) return false;
-  /* getMonth(): 0 = Jan … 7 = August */
-  if (month > 7) return true;
-  if (month < 7) return false;
-  return day > 15;
+  /* getMonth(): 0 = Jan … 8 = September */
+  if (month > 8) return true;
+  if (month < 8) return false;
+  return day > 10;
 }
 
 export default function MainPage() {
