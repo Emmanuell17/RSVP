@@ -1,6 +1,7 @@
 import { useEffect, useRef } from "react";
 import GuestLogoutButton from "../components/GuestLogoutButton";
 import AppreciationMessage from "../components/AppreciationMessage";
+import PhotoGallery from "../components/PhotoGallery";
 import "./MainPage.css";
 
 export default function MainPage() {
@@ -51,6 +52,7 @@ export default function MainPage() {
         <div className="main-inner page-enter-stagger">
           <GuestLogoutButton />
           <AppreciationMessage />
+          <PhotoGallery />
         </div>
       </div>
     </main>
