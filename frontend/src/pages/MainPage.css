@@ -1,4 +1,4 @@
-/* ─── Invitation page: parallax backdrop + layered content ─── */
+/* ─── Thank-you page: warm golden-hour backdrop ─── */
 .main-page {
   --parallax-bg: 0px;
   --parallax-orbs: 0px;
@@ -8,6 +8,7 @@
   flex: 1;
   min-height: 100vh;
   overflow-x: clip;
+  background: #4a2414;
 }
 
 .main-page__parallax {
@@ -20,20 +21,50 @@
 
 .main-page__parallax-bg {
   position: absolute;
-  inset: -12vh -5% -8vh;
-  background-image:
-    linear-gradient(
-      165deg,
-      rgb(15 26 46 / 0.25) 0%,
-      rgb(26 39 68 / 0.08) 42%,
-      rgb(15 26 46 / 0.22) 100%
+  inset: -18vh -8% -12vh;
+  background:
+    radial-gradient(
+      ellipse 90% 70% at 50% -8%,
+      rgb(255 214 140 / 0.95) 0%,
+      rgb(232 154 72 / 0.55) 28%,
+      transparent 62%
     ),
-    url("../assets/landing-bg.png");
-  background-size: cover;
-  background-position: center 28%;
-  background-repeat: no-repeat;
-  transform: translate3d(0, var(--parallax-bg), 0) scale(1.06);
+    radial-gradient(
+      ellipse 55% 45% at 8% 88%,
+      rgb(168 52 42 / 0.45) 0%,
+      transparent 58%
+    ),
+    radial-gradient(
+      ellipse 50% 40% at 96% 18%,
+      rgb(201 118 58 / 0.4) 0%,
+      transparent 55%
+    ),
+    linear-gradient(
+      168deg,
+      #f3c27a 0%,
+      #d9783a 32%,
+      #9a3d28 58%,
+      #5c2218 82%,
+      #3a1610 100%
+    );
+  transform: translate3d(0, var(--parallax-bg), 0) scale(1.08);
   will-change: transform;
+}
+
+.main-page__parallax-rays {
+  position: absolute;
+  inset: -20%;
+  background: repeating-conic-gradient(
+    from 198deg at 50% 8%,
+    rgb(255 236 190 / 0.16) 0deg,
+    rgb(255 236 190 / 0) 7deg,
+    rgb(255 210 140 / 0.1) 11deg,
+    rgb(255 210 140 / 0) 18deg
+  );
+  mix-blend-mode: soft-light;
+  opacity: 0.85;
+  transform: translate3d(0, var(--parallax-bg), 0);
+  animation: warmRayDrift 28s linear infinite;
 }
 
 .main-page__parallax-orbs {
@@ -41,22 +72,69 @@
   inset: 0;
   background:
     radial-gradient(
-      ellipse 80% 50% at 18% 20%,
-      rgb(201 168 76 / 0.20) 0%,
+      circle 22rem at 18% 22%,
+      rgb(255 196 110 / 0.42) 0%,
+      transparent 58%
+    ),
+    radial-gradient(
+      circle 16rem at 82% 12%,
+      rgb(255 168 92 / 0.28) 0%,
       transparent 55%
     ),
     radial-gradient(
-      ellipse 65% 45% at 88% 12%,
-      rgb(184 149 74 / 0.12) 0%,
-      transparent 50%
-    ),
-    radial-gradient(
-      ellipse 55% 40% at 70% 88%,
-      rgb(201 168 76 / 0.12) 0%,
-      transparent 45%
+      circle 20rem at 72% 78%,
+      rgb(190 72 48 / 0.32) 0%,
+      transparent 52%
     );
   transform: translate3d(0, var(--parallax-orbs), 0);
   will-change: transform;
+}
+
+.main-page__ember {
+  position: absolute;
+  border-radius: 50%;
+  filter: blur(10px);
+  mix-blend-mode: screen;
+  animation: warmEmber 14s ease-in-out infinite;
+}
+
+.main-page__ember--a {
+  width: 9rem;
+  height: 9rem;
+  left: 8%;
+  top: 58%;
+  background: rgb(255 186 92 / 0.45);
+  animation-duration: 16s;
+}
+
+.main-page__ember--b {
+  width: 5.5rem;
+  height: 5.5rem;
+  right: 12%;
+  top: 38%;
+  background: rgb(255 140 70 / 0.38);
+  animation-duration: 12s;
+  animation-delay: -4s;
+}
+
+.main-page__ember--c {
+  width: 13rem;
+  height: 13rem;
+  left: 42%;
+  bottom: -4%;
+  background: rgb(255 214 150 / 0.28);
+  animation-duration: 20s;
+  animation-delay: -8s;
+}
+
+.main-page__ember--d {
+  width: 3.25rem;
+  height: 3.25rem;
+  right: 22%;
+  bottom: 18%;
+  background: rgb(255 232 180 / 0.5);
+  animation-duration: 9s;
+  animation-delay: -2s;
 }
 
 .main-page__parallax-veil {
@@ -64,16 +142,16 @@
   inset: 0;
   background:
     radial-gradient(
-      ellipse 80% 65% at 50% 40%,
-      transparent 0%,
-      rgb(15 26 46 / 0.04) 100%
+      ellipse 85% 70% at 50% 28%,
+      rgb(255 236 210 / 0.12) 0%,
+      transparent 58%
     ),
     linear-gradient(
       180deg,
-      transparent 0%,
-      transparent 35%,
-      rgb(15 26 46 / 0.14) 75%,
-      rgb(15 26 46 / 0.32) 100%
+      rgb(255 214 160 / 0.08) 0%,
+      transparent 28%,
+      rgb(74 28 18 / 0.18) 72%,
+      rgb(42 16 12 / 0.42) 100%
     );
 }
 
@@ -86,52 +164,56 @@
 }
 
 .main-inner {
-  width: min(620px, 100%);
+  width: min(680px, 100%);
   display: flex;
   flex-direction: column;
   gap: clamp(1rem, 2.5vw, 1.5rem);
   position: relative;
 }
 
-/* Glass surfaces */
-.main-page .invitation-header,
-.main-page .contact-info,
-.main-page .rsvp-section,
-.main-page .rsvp-closed-message {
-  background: var(--color-surface);
-  border: 1px solid var(--color-surface-border-gold);
+.main-page .appreciation {
+  background: rgb(255 246 230 / 0.58);
+  border: 1px solid rgb(232 186 110 / 0.45);
   border-radius: var(--radius-card);
-  box-shadow: var(--shadow-card), inset 0 1px 0 rgb(255 255 255 / 0.28);
-  backdrop-filter: var(--glass-blur);
-  -webkit-backdrop-filter: var(--glass-blur);
+  box-shadow:
+    0 18px 50px rgb(74 28 18 / 0.28),
+    0 2px 8px rgb(74 28 18 / 0.16),
+    inset 0 1px 0 rgb(255 255 255 / 0.55);
+  backdrop-filter: blur(22px) saturate(1.35);
+  -webkit-backdrop-filter: blur(22px) saturate(1.35);
+  padding: clamp(1.75rem, 4.5vw, 2.5rem) clamp(1.35rem, 3vw, 1.85rem);
 }
 
-.main-page .invitation-header {
-  padding: clamp(1.75rem, 4.5vw, 2.5rem) clamp(1.5rem, 3.5vw, 2.25rem);
-  padding-top: clamp(2.35rem, 5vw, 2.85rem);
+@keyframes warmRayDrift {
+  from {
+    transform: translate3d(0, var(--parallax-bg), 0) rotate(0deg);
+  }
+  to {
+    transform: translate3d(0, var(--parallax-bg), 0) rotate(12deg);
+  }
 }
 
-.main-page .contact-info {
-  padding: clamp(1.25rem, 3vw, 1.75rem) clamp(1.35rem, 3vw, 1.85rem);
-}
-
-.main-page .rsvp-section {
-  padding: clamp(1.5rem, 3.5vw, 2rem) clamp(1.35rem, 3vw, 1.85rem);
-}
-
-.main-page .rsvp-closed-message {
-  margin: 0;
-  padding: 0.9rem 1.2rem;
-  background: rgb(254 243 199 / 0.60);
-  border-color: rgb(201 168 76 / 0.50);
-  color: #78350f;
-  font-size: 0.95rem;
-  font-weight: 500;
+@keyframes warmEmber {
+  0%,
+  100% {
+    transform: translate3d(0, 0, 0) scale(1);
+    opacity: 0.7;
+  }
+  50% {
+    transform: translate3d(12px, -28px, 0) scale(1.12);
+    opacity: 1;
+  }
 }
 
 @media (prefers-reduced-motion: reduce) {
   .main-page__parallax-bg,
-  .main-page__parallax-orbs {
+  .main-page__parallax-orbs,
+  .main-page__parallax-rays {
     transform: none !important;
+    animation: none;
+  }
+
+  .main-page__ember {
+    animation: none;
   }
 }

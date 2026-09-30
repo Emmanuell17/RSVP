@@ -34,8 +34,7 @@ export default function LoginPage() {
           </p>
         ) : null}
         <p className="login-intro login-intro--lead" id="login-lead">
-          Enter your invitation password to view the celebration details and
-          RSVP.
+          Enter your invitation password to view the celebration and our thanks.
         </p>
         <LoginForm />
         <p className="login-intro">

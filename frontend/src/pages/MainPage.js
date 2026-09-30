@@ -1,26 +1,9 @@
 import { useEffect, useRef } from "react";
 import GuestLogoutButton from "../components/GuestLogoutButton";
-import InvitationHeader from "../components/InvitationHeader";
-import ContactInfo from "../components/ContactInfo";
-import RSVPForm from "../components/RSVPForm";
+import AppreciationMessage from "../components/AppreciationMessage";
 import "./MainPage.css";
 
-function isRsvpDeadlinePassed() {
-  const now = new Date();
-  const year = now.getFullYear();
-  const month = now.getMonth();
-  const day = now.getDate();
-
-  if (year > 2026) return true;
-  if (year < 2026) return false;
-  /* getMonth(): 0 = Jan … 8 = September */
-  if (month > 8) return true;
-  if (month < 8) return false;
-  return day > 10;
-}
-
 export default function MainPage() {
-  const closed = isRsvpDeadlinePassed();
   const mainRef = useRef(null);
 
   useEffect(() => {
@@ -55,20 +38,19 @@ export default function MainPage() {
     <main ref={mainRef} className="main-page">
       <div className="main-page__parallax texture-grain" aria-hidden="true">
         <div className="main-page__parallax-bg" />
-        <div className="main-page__parallax-orbs" />
+        <div className="main-page__parallax-rays" />
+        <div className="main-page__parallax-orbs">
+          <span className="main-page__ember main-page__ember--a" />
+          <span className="main-page__ember main-page__ember--b" />
+          <span className="main-page__ember main-page__ember--c" />
+          <span className="main-page__ember main-page__ember--d" />
+        </div>
         <div className="main-page__parallax-veil" />
       </div>
       <div className="main-page__content">
         <div className="main-inner page-enter-stagger">
           <GuestLogoutButton />
-          <InvitationHeader />
-          <ContactInfo />
-          {closed && (
-            <p className="rsvp-closed-message" role="status">
-              RSVP is now closed
-            </p>
-          )}
-          <RSVPForm disabled={closed} />
+          <AppreciationMessage />
         </div>
       </div>
     </main>

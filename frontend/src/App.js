@@ -2,7 +2,6 @@ import { BrowserRouter, Routes, Route, Navigate } from "react-router-dom";
 import InactivityGuard from "./components/InactivityGuard";
 import LoginPage from "./pages/LoginPage";
 import MainPage from "./pages/MainPage";
-import RsvpReceivedPage from "./pages/RsvpReceivedPage";
 import AdminPage from "./pages/AdminPage";
 import {
   checkAndExpireSession,
@@ -35,11 +34,7 @@ export default function App() {
           />
           <Route
             path="/rsvp-received"
-            element={
-              <PrivateRoute>
-                <RsvpReceivedPage />
-              </PrivateRoute>
-            }
+            element={<Navigate to="/" replace />}
           />
           <Route path="*" element={<Navigate to="/" replace />} />
         </Routes>

@@ -1,0 +1,133 @@
+.appreciation {
+  text-align: center;
+}
+
+.appreciation-ornament {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.75rem;
+  margin: 0 auto 1.1rem;
+}
+
+.appreciation-ornament-line {
+  flex: 1;
+  max-width: 80px;
+  height: 1px;
+  background: linear-gradient(90deg, transparent, var(--color-gold), transparent);
+}
+
+.appreciation-ornament-diamond {
+  font-size: 0.75rem;
+  color: var(--color-gold-text);
+  letter-spacing: 0.15em;
+  font-weight: 700;
+}
+
+.appreciation-kicker {
+  font-family: var(--font-cinzel);
+  font-size: clamp(0.78rem, 2.2vw, 0.92rem);
+  font-weight: 700;
+  letter-spacing: 0.24em;
+  text-transform: uppercase;
+  color: var(--color-navy-deep);
+  margin: 0 0 1rem;
+  text-shadow: 0 1px 0 rgb(255 255 255 / 0.35);
+}
+
+.appreciation-banner {
+  margin: 0 0 0.85rem;
+  padding: 0.55rem 0.75rem;
+  font-family: var(--font-cinzel);
+  font-size: clamp(0.82rem, 2.4vw, 0.95rem);
+  font-weight: 700;
+  letter-spacing: 0.22em;
+  text-transform: uppercase;
+  color: var(--color-navy-deep);
+  background: linear-gradient(
+    90deg,
+    transparent 0%,
+    rgb(201 168 76 / 0.22) 18%,
+    rgb(238 223 160 / 0.38) 50%,
+    rgb(201 168 76 / 0.22) 82%,
+    transparent 100%
+  );
+  border-top: 1px solid var(--color-surface-border-gold);
+  border-bottom: 1px solid var(--color-surface-border-gold);
+}
+
+.appreciation-heading {
+  font-size: clamp(1.7rem, 4.2vw, 2.15rem);
+  font-weight: 600;
+  margin: 0 0 0.45rem;
+  letter-spacing: 0.01em;
+  color: var(--color-navy-deep);
+}
+
+.appreciation-lead {
+  margin: 0 0 1.35rem;
+  font-size: clamp(1.02rem, 2.7vw, 1.16rem);
+  font-weight: 500;
+  font-style: italic;
+  line-height: 1.5;
+  color: var(--color-navy-deep);
+  text-wrap: balance;
+}
+
+.appreciation-notes {
+  display: grid;
+  gap: 0.85rem;
+  text-align: left;
+}
+
+.appreciation-note {
+  padding: 1rem 1.05rem 1.05rem;
+  border-radius: calc(var(--radius-card) - 4px);
+  border: 1px solid var(--color-surface-border-gold);
+  background: rgb(255 255 255 / 0.38);
+}
+
+.appreciation-note-title {
+  margin: 0 0 0.4rem;
+  font-family: var(--font-cinzel);
+  font-size: 0.78rem;
+  font-weight: 700;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: var(--color-gold-dark);
+}
+
+.appreciation-note-text {
+  margin: 0;
+  color: var(--color-ink-muted);
+  line-height: 1.55;
+  font-size: 0.96rem;
+}
+
+.appreciation-verse {
+  margin: 1.25rem 0 0;
+  padding: clamp(1.15rem, 3vw, 1.45rem) 0.35rem 0.15rem;
+  border-top: 1px solid var(--color-surface-border-gold);
+  text-align: center;
+}
+
+.appreciation-verse__text {
+  margin: 0 0 0.75rem;
+  font-size: clamp(1.05rem, 2.8vw, 1.2rem);
+  font-weight: 500;
+  font-style: italic;
+  line-height: 1.55;
+  color: var(--color-navy-deep);
+  text-wrap: balance;
+}
+
+.appreciation-verse__ref {
+  display: block;
+  font-family: var(--font-body);
+  font-size: 0.86rem;
+  font-weight: 600;
+  font-style: normal;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  color: var(--color-gold-dark);
+}
