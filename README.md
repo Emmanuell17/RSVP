@@ -1,4 +1,4 @@
-# 💍 Private RSVP Invitation Platform
+# Private RSVP Invitation Platform
 
 A secure, custom-built RSVP website designed for a private event invitation experience.  
 This project replaces traditional paper invitations and generic RSVP forms with a personalized, password-protected web application that provides guests with a smooth digital experience while giving the organizer full control over responses.
@@ -6,8 +6,6 @@ This project replaces traditional paper invitations and generic RSVP forms with 
 The application is currently **actively used by the client**, who is satisfied with the final product and user experience. I continue to **maintain and support the platform**, making improvements, updates, and feature changes whenever required.
 
 ---
-
-## No Demo Video as the event is private 
 > 
 
 ---
